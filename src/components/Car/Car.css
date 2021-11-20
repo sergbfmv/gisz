@@ -1,0 +1,89 @@
+.col-sm-12__car {
+  margin-top: 41px;
+}
+
+.breadcrumb__link {
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 22px;
+  color: #A0A0A0;
+}
+
+#car-table__id tr th{
+  padding-bottom: 20px;
+}
+
+#car-table__id tr th:nth-child(1){
+  width: 80%;
+}
+
+#car-table__id tr th:nth-child(2){
+  width: 10%;
+}
+
+#car-table__id tr th:nth-child(3){
+  width: 10%;
+}
+
+#car-table__id tr td{
+  font-size: 15px;
+  line-height: 19px;
+}
+
+.garage-text__span {
+  color: #FE4545;
+}
+
+@media screen and (max-width: 768px) {
+  .col-sm-12__garage-text {
+    font-size: 16px;
+    line-height: 21px;
+  }
+  .garage-text__span {
+    font-size: 16px;
+    line-height: 21px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .breadcrumb__link {
+    font-size: 17px;
+    line-height: 22px;
+  }
+  .active{
+    font-size: 15px;
+    line-height: 19px;
+  }
+
+  .col-sm-12__garage-text {
+    font-size: 14px;
+    line-height: 19px;
+  }
+
+  .garage-text__span {
+    font-size: 14px;
+    line-height: 19px;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .breadcrumb__link {
+    font-size: 12px;
+    line-height: 15px;
+  }
+  .active{
+    font-size: 12px;
+    line-height: 15px;
+  }
+
+  .col-sm-12__garage-text {
+    font-size: 12px;
+    line-height: 16px;
+  }
+
+  .garage-text__span {
+    font-size: 12px;
+    line-height: 16px;
+  }
+}

@@ -1,0 +1,219 @@
+.col-sm-12__garage-form {
+  margin-top: 41px;
+}
+
+.garage__form {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.mb-3__garage {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 68%;
+}
+
+.form-select__garage {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 23px;
+  color: #D6D6D6;
+  margin-right: 20px;
+  height: 60px;
+  min-width: 157px;
+  padding-left: 30px;
+}
+
+.btn-primary__garage {
+  font-weight: 800;
+  font-size: 17px;
+  line-height: 22px;
+  background: #0B0B0B;
+  border-radius: 5px;
+  height: 60px;
+  padding: 19px 48px;
+  margin-bottom: 1rem;
+  border-color: black;
+}
+
+.col-sm-12__garage {
+  margin-top: 30px;
+  overflow: hidden;
+  overflow-x: scroll;
+  white-space:nowrap;
+}
+
+#garage-table__id tr th{
+  padding-bottom: 20px;
+}
+
+#garage-table__id tr th:nth-child(1){
+  width: 12%;
+}
+
+#garage-table__id tr th:nth-child(2){
+  width: 12%;
+}
+
+#garage-table__id tr th:nth-child(3){
+  width: 52%;
+}
+
+#garage-table__id tr th:nth-child(4){
+  width: 12%;
+}
+
+#garage-table__id tr th:nth-child(5){
+  width: 12%;
+}
+
+
+.table {
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 135%;
+  color: #A0A0A0;
+  display: inline-block;
+}
+
+.garage-table__title {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 18px;
+  color: #0B0B0B;
+}
+
+#garage-table__id tr td{
+  padding-bottom: 20px;
+  padding-top: 20px;
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 135%;
+}
+
+.garage-table__repeat-button {
+  background-color: white;
+  border: none;
+  margin-right: 22px;
+  padding: 0;
+}
+
+.garage-table__copy-button {
+  background-color: white;
+  border: none;
+  padding: 0;
+}
+
+.garage-link {
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 135%;
+  color: #A0A0A0;
+  text-decoration: none;
+}
+
+.col-sm-12__garage-text {
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 135%;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+@media screen and (max-width: 1024px) {
+  .mb-3__garage {
+    width: 100%;
+  }
+
+  .col-sm-12__garage-text {
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+
+  .col-sm-12__garage {
+    margin-top: 20px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .col-sm-12__garage-form {
+    width: 588px;
+  }
+
+  .mb-3__garage {
+    width: 100%;
+  }
+
+  .btn-primary__garage {
+    font-size: 17px;
+    line-height: 21px;
+    padding: 19px 30px;
+  }
+
+  .col-sm-12__garage-text {
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+
+  .form-select__garage {
+    font-size: 16px;
+    line-height: 20px;
+    padding-left: 19px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .col-sm-12__garage-form {
+    width: 480px;
+  }
+
+  .garage__form {
+    flex-direction: column;
+  }
+
+  .mb-3__garage {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .form-select__garage {
+    font-size: 14px;
+    line-height: 18px;
+    padding-left: 30px;
+    margin-bottom: 10px;
+    margin-right: 0;
+  }
+
+  .btn-primary__garage {
+    padding: 19px 145px;
+  }
+
+  .col-sm-12__garage-text {
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+
+  .form-select__garage {
+    font-size: 16px;
+    line-height: 20px;
+    padding-left: 19px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .garage__form {
+    margin-right: 40px;
+  }
+  .btn-primary__garage {
+    padding: 19px 85px;
+  }
+  .container__garage {
+    margin-left: 0;
+  }
+
+  .col-sm-12__garage-form {
+    margin-left: 20px;
+  }
+}

@@ -1,0 +1,135 @@
+.container-sm__category {
+  padding: 0;
+  margin-top: 66px;
+  padding-bottom: 66px;
+  border-top: 2px solid #638FFF;
+  border-bottom: 2px solid #638FFF;
+  position: relative;
+}
+
+.part-of__line_bottom {
+  top: +452px;
+}
+
+.elements-row {
+  padding: 0;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(1, 1fr);
+  gap: 20px;
+}
+
+.image__row {
+  max-width: 310px;
+}
+
+@media screen and (max-width: 1399px) {
+  .container-sm__category {
+    margin-top: 56px;
+    padding-bottom: 56px;
+  }
+  .box {
+    margin-top: 10px;
+  }
+  .image__row {
+    width: 225px;
+  }
+  
+  .part-of__line_bottom {
+    top: +367px;
+  }
+  
+  .elements-row {
+    padding: 0;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(1, 1fr);
+    gap: 20px;
+  }
+}
+
+@media screen and (max-width: 990px) {
+  .container-sm__category {
+    margin-top: 51px;
+    padding-bottom: 51px;
+    margin-left: 30px;
+  }
+  .box {
+    margin-top: 10px;
+  }
+
+  .image__row {
+    width: 165px;
+  }
+  
+  .part-of__line_bottom {
+    top: +302px;
+  }
+  
+  .elements-row {
+    padding: 0;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(1, 1fr);
+    gap: 20px;
+  }
+}
+
+@media screen and (max-width: 759px) {
+  .container-sm__category {
+    margin-top: 41px;
+    padding-bottom: 41px;
+    width: 450px;
+  }
+  .box {
+    margin-top: 10px;
+  }
+
+  .image__row {
+    width: 200px;
+  }
+  
+  .elements-row {
+    padding: 0;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 20px;
+  }
+  .part-of__line_bottom {
+    top: +540px;
+  }
+}
+
+@media screen and (max-width: 414px) {
+  .container-sm__category {
+    width: 300px;
+    margin-top: 69px;
+    padding-bottom: 57px;
+    margin-left: 20px;
+  }
+  .box {
+    margin-top: 10px;
+  }
+
+  .image__row {
+    width: 280px;
+  }
+  
+  .part-of__line_bottom {
+    top: +1085px;
+  }
+  
+  .elements-row {
+    padding: 0;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 20px;
+  }
+}

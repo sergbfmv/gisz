@@ -1,0 +1,130 @@
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer__box {
+  max-width: 1920px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #F2F3F5;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.footer__content {
+  max-width: 1320px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer__title {
+  font-weight: 800;
+  font-size: 35px;
+  line-height: 45px;
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+
+.footer__links {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-primary__footer {
+  width: 64px;
+  height: 64px;
+  padding: 20px;
+  background-color: #638FFF;
+}
+
+.contacts {
+  margin-right: 40px;
+}
+
+.phone {
+  text-decoration: none;
+  font-weight: 800;
+  color: black;
+  font-size: 27px;
+  line-height: 30px;
+}
+
+.text {
+  margin: 0;
+  color: #64C329;
+  font-weight: 800;
+  font-size: 16px;
+  line-height: 140%;
+}
+
+@media screen and (max-width: 1024px) {
+  .footer__title {
+    margin-top: 45px;
+    margin-bottom: 45px;
+  }
+}
+
+@media screen and (max-width: 580px) {
+  .footer__title {
+    margin-top: 33px;
+    margin-bottom: 33px;
+    font-size: 30px;
+    line-height: 38px;
+  }
+  .footer__box {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+  .btn-primary__footer {
+    width: 54px;
+    height: 54px;
+    padding: 14px;
+  }
+  .contacts {
+    margin-right: 25px;
+  }
+  .phone {
+    font-size: 20px;
+    line-height: 24px;
+  }
+  .text {
+    font-size: 12px;
+    line-height: 140%;
+  }
+}
+
+@media screen and (max-width: 440px) {
+  .footer__title {
+    margin-top: 21px;
+    margin-bottom: 21px;
+    font-size: 25px;
+    line-height: 32px;
+  }
+  .footer__box {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .btn-primary__footer {
+    display: none;
+  }
+  .contacts {
+    margin-right: 0;
+  }
+  .phone {
+    font-size: 16px;
+    line-height: 20px;
+  }
+  .text {
+    font-size: 10px;
+    line-height: 140%;
+  }
+}

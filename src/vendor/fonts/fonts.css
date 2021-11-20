@@ -1,0 +1,15 @@
+@font-face {
+  src: url(../fonts/Mont/SemiBold/Mont-SemiBold.woff2) format("woff2"),
+  url(../fonts/Mont/SemiBold/Mont-SemiBold.woff) format("woff"),
+  url(../fonts/Mont/SemiBold/Mont-SemiBold.ttf) format("ttf");
+  font-family: 'Mont';
+  font-weight: 600;
+}
+
+@font-face {
+  src: url(../fonts/Mont/Black/Mont-Black.woff2) format("woff2"),
+  url(../fonts/Mont/Black/Mont-Black.woff) format("woff"),
+  url(../fonts/Mont/Black/Mont-Black.ttf) format("truetype");
+  font-family: 'Mont';
+  font-weight: 800;
+}

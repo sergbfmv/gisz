@@ -1,0 +1,87 @@
+.offers__form {
+  justify-content: flex-start;
+  margin-top: 30px;
+}
+
+.mb-3__offers {
+  width: 270px;
+}
+
+.offers__title {
+  margin: 0;
+  margin-top: 30px;
+  font-weight: 800;
+  font-size: 24px;
+  line-height: 31px;
+}
+
+.offers__text {
+  margin: 0;
+  margin-top: 25px;
+  font-weight: 800;
+  font-size: 19px;
+  line-height: 24px;
+}
+
+.col-sm-12__offers {
+  white-space: pre-wrap;
+}
+
+#offers-table__id tr th{
+  padding-bottom: 20px;
+}
+
+#offers-table__id tr th:nth-child(1){
+  width: 11%;
+}
+
+#offers-table__id tr th:nth-child(2){
+  width: 11%;
+}
+
+#offers-table__id tr th:nth-child(3){
+  width: 11%;
+}
+
+#offers-table__id tr th:nth-child(4){
+  width: 25%;
+}
+
+#offers-table__id tr th:nth-child(5){
+  width: 10%;
+}
+
+#offers-table__id tr td:nth-child(6){
+  width: 25%;
+}
+
+#offers-table__id tr td:nth-child(7){
+  width: 7%;
+}
+
+#offers-table__id tr td{
+  padding-bottom: 20px;
+  padding-top: 20px;
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 135%;
+  vertical-align: middle;
+}
+
+.buy-btn {
+  background-color: white;
+  border: none;
+  padding: 0;
+}
+
+@media screen and (max-width: 420px) {
+  .offers__title {
+    font-size: 17px;
+    line-height: 23px;
+  }
+  
+  .offers__text {
+    font-size: 16px;
+    line-height: 20px;
+  }
+}

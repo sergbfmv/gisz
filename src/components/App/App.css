@@ -1,0 +1,22 @@
+.page {
+  background-color: #FFFFFF;
+  margin: 0 auto;
+  color: black;
+  min-width: 320px;
+  min-height: 100vh;
+  font-family: "Mont", "Arial", sans-serif;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+}
+
+.main {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
