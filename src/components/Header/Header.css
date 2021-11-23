@@ -30,6 +30,8 @@
   line-height: 45px;
   margin-top: 34px;
   margin-bottom: 34px;
+  text-decoration: none;
+  color: black;
 }
 
 .header__links {

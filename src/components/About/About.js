@@ -1,4 +1,5 @@
 import './About.css'
+import InputMask from "react-input-mask"
 
 function About() {
   return (
@@ -13,7 +14,7 @@ function About() {
         <form className="about__form">
           <div className="mb-3 mb-3__about">
             <label className="form-label">Поможем Вам найти запчасти</label>
-            <input type="phone" id="phone" name="phone" placeholder="+7 999 999 99 99" className="form-control" required/>
+            <InputMask mask="+7 999 999 99 99" type="tel" id="phone" name="phone" placeholder="+7 999 999 99 99" className="form-control" required />
           </div>
           <div className="mb-3 mb-3__about">
             <input type="text" placeholder="Имя" className="form-control"/>

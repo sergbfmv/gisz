@@ -6,7 +6,7 @@ function Header(props) {
     <div className="header">
       <div className="header__box">
         <div className="header__content">
-          <h2 className="header__title">gisz.ru</h2>
+          <Link to="/" className="header__title">gisz.ru</Link>
           <div className="header__links">
             <button type="button" className="btn btn-warning" onClick={props.openPopup}><span>Регистрация</span></button>
             <Link to="/garage" type="button" className="btn btn-primary btn-primary__header"><span>Личный кабинет</span></Link>

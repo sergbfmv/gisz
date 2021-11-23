@@ -1,4 +1,5 @@
 import "./RegisterPopup.css"
+import InputMask from "react-input-mask"
 
 function RegisterPopup(props) {
     return (
@@ -7,8 +8,7 @@ function RegisterPopup(props) {
                 <button className="popup__close-button" type="button" onClick={props.onClose}></button>
                 <h2 className="popup__title">Регистрация</h2>
                 <form className="popup__form">
-                    <input type="phone" id="reg-phone" name="reg-phone" placeholder="+7 999 999 99 99"
-                           className="popup__placeholder" required/>
+                    <InputMask mask="+7 999 999 99 99" type="tel" id="reg-phone" name="reg-phone" placeholder="+7 999 999 99 99" className="popup__placeholder" required />
                     <button type="button" name="save" className="popup__code-button" onClick={sendSMSCode}>Выслать код
                         подтверждения
                     </button>
