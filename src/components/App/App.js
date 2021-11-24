@@ -5,7 +5,7 @@ import '../../vendor/fonts/fonts.css'
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer'
 import Main from '../Main/Main';
-import { Route, Routes } from 'react-router';
+import {Route, Routes} from 'react-router';
 import Garage from '../Garage/Garage';
 import Car from '../Car/Car';
 import Offers from '../Offers/Offers';
@@ -13,7 +13,67 @@ import Order from '../Order/Order';
 import RegisterPopup from '../RegisterPopup/RegisterPopup';
 
 
-function App() {
+class App extends React.Component {
+
+    constructor(props) {
+        super(props);
+
+        this.authToken = localStorage.getItem("api_token");
+
+        this.state = {isLogin: !!this.authToken, popupOpened: false};
+
+        // Эта привязка обязательна для работы `this` в колбэке.
+        this.setAuthState = this.setAuthState.bind(this);
+        this.openPopup = this.openPopup.bind(this);
+        this.closePopup = this.closePopup.bind(this);
+    }
+
+    setAuthState() {
+        console.log('set state')
+        this.authToken = localStorage.getItem("api_token");
+        this.setState({
+            isLogin: !!this.authToken
+        });
+    }
+
+    openPopup() {
+        this.setState({
+            popupOpened: true
+        })
+    }
+
+    closePopup() {
+        this.setAuthState();
+        this.setState({
+            popupOpened: false,
+        })
+    }
+
+    render() {
+        let popup;
+        if (this.state.popupOpened) {
+            popup = <RegisterPopup onClose={this.closePopup}/>;
+        }
+        return (
+            <div className="page">
+                <main className="main">
+                    <Header isLogin={this.state.isLogin} openPopup={this.openPopup}/>
+                    <Routes>
+                        <Route path="/" element={<Main/>}/>
+                        <Route path="/garage" element={<Garage/>}/>
+                        <Route path="/car" element={<Car/>}/>
+                        <Route path="/offers" element={<Offers/>}/>
+                        <Route path="/order" element={<Order/>}/>
+                    </Routes>
+                    <Footer/>
+                    {popup}
+                </main>
+            </div>
+        )
+    }
+}
+
+/*function App() {
   const [isOpenPopup, setIsOpenPopup] = React.useState(false)
 
   function closeByEscape(event) {
@@ -50,6 +110,6 @@ function App() {
       </main>
     </div>
   );
-}
+}*/
 
 export default App;
