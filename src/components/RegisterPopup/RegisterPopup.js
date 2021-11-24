@@ -54,7 +54,6 @@ class RegisterPopup extends React.Component {
         super(props);
         this.state = {isOpen: true, onClose: props.onClose};
 
-        //this.onClose = this.onClose.bind(this);
         this.close = this.close.bind(this);
         this.checkCode = this.checkCode.bind(this);
     }

@@ -217,3 +217,8 @@
     margin-left: 20px;
   }
 }
+
+.form-control{
+  width: auto;
+  height: 60px;
+}

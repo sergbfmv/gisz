@@ -29,7 +29,6 @@ class App extends React.Component {
     }
 
     setAuthState() {
-        console.log('set state')
         this.authToken = localStorage.getItem("api_token");
         this.setState({
             isLogin: !!this.authToken
