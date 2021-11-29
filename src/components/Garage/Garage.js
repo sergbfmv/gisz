@@ -12,12 +12,16 @@ class Garage extends React.Component {
         super(props);
         this.state = {
             brands: [],
+            models: [],
             selectedBrand: null,
+            selectedModel: null,
             isLoading: false,
         };
 
         this.searchBrands = this.searchBrands.bind(this);
         this.selectBrand = this.selectBrand.bind(this);
+        this.searchModels = this.searchModels.bind(this);
+        this.selectModel = this.selectModel.bind(this)
     }
 
     searchBrands(input) {
@@ -40,7 +44,42 @@ class Garage extends React.Component {
         }
     }
 
+    searchModels(input) {
+      this.setState({
+          isLoading: true,
+      })
+      axios.get("http://apelio.khonik.online/api/model?marka_id=" + this.state.selectedBrand.marka_id + "&name=" + input).then(r => {
+          this.setState({
+              isLoading: false,
+              models: r.data.models,
+          })
+      })
+    }
+
+    selectModel(selectedData) {
+      if (selectedData.length > 0) {
+          this.setState({
+              selectedModel: selectedData[0],
+          })
+      }
+  }
+
     render() {
+      let model;
+      if (this.state.selectedBrand === null) {
+        model = <AsyncTypeahead placeholder="Модель" disabled />
+      } else {
+        model = <AsyncTypeahead
+        id="model-search"
+        isLoading={this.state.isLoading}
+        labelKey="name"
+        minLength={1}
+        onSearch={this.searchModels}
+        options={this.state.models}
+        placeholder="Модель"
+        onChange={this.selectModel}
+      />
+      }
         return (
             <div className="container container__garage">
                 <div className="row">
@@ -48,31 +87,28 @@ class Garage extends React.Component {
                         <form className="garage__form">
                             <div className="mb-3 mb-3__garage">
                                 <AsyncTypeahead
-                                    id="brand-search"
-                                    className=""
-                                    isLoading={this.state.isLoading}
-                                    labelKey="name"
-                                    minLength={1}
-                                    onSearch={this.searchBrands}
-                                    options={this.state.brands}
-                                    placeholder="Выберите марку"
-                                    onChange={this.selectBrand}
+                                  id="brand-search"
+                                  isLoading={this.state.isLoading}
+                                  labelKey="name"
+                                  minLength={1}
+                                  onSearch={this.searchBrands}
+                                  options={this.state.brands}
+                                  placeholder="Марка"
+                                  onChange={this.selectBrand}
                                 />
-
-                                <select className="form-select form-select__garage" aria-label="Default select example">
-                                    <option selected>Модель</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                </select>
-                                <select className="form-select form-select__garage" aria-label="Default select example">
-                                    <option selected>Год машины</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                </select>
+                                {model}
+                                <AsyncTypeahead
+                                  id="year-search"
+                                  isLoading={this.state.isLoading}
+                                  labelKey="year"
+                                  minLength={1}
+                                  onSearch=''
+                                  options=''
+                                  placeholder="Год"
+                                  onChange=''
+                                />
+                              <button type="submit" className="btn btn-primary btn-primary__garage">Применить</button>
                             </div>
-                            <button type="submit" className="btn btn-primary btn-primary__garage">Применить</button>
                         </form>
                     </div>
                     <div className="col-sm-12 col-sm-12__garage">
@@ -91,12 +127,8 @@ class Garage extends React.Component {
                             <tr>
                                 <td>№19346</td>
                                 <td>
-                                    <button type="button" className="garage-table__repeat-button"><img src={repeatbtn}
-                                                                                                       alt=""></img>
-                                    </button>
-                                    <button type="button" className="garage-table__copy-button"><img src={copybtn}
-                                                                                                     alt=""></img>
-                                    </button>
+                                  <button type="button" className="garage-table__repeat-button"><img src={repeatbtn} alt=""></img></button>
+                                    <button type="button" className="garage-table__copy-button"><img src={copybtn} alt=""></img></button>
                                 </td>
                                 <td><Link to="/car" className="garage-link">BMW 6 GT Liftback (G32) 2.0 (249Hp) (B48B20)
                                     RWD AT</Link></td>

@@ -14,10 +14,10 @@ function About() {
         <form className="about__form">
           <div className="mb-3 mb-3__about">
             <label className="form-label">Поможем Вам найти запчасти</label>
-            <InputMask mask="+7 999 999 99 99" type="tel" id="phone" name="phone" placeholder="+7 999 999 99 99" className="form-control" required />
+            <InputMask mask="+7 999 999 99 99" type="tel" id="phone" name="phone" placeholder="+7 999 999 99 99" className="form-controler" required />
           </div>
           <div className="mb-3 mb-3__about">
-            <input type="text" placeholder="Имя" className="form-control"/>
+            <input type="text" placeholder="Имя" className="form-controler"/>
           </div>
           <button type="submit" className="btn btn-primary btn-primary__about">Отправить</button>
         </form>

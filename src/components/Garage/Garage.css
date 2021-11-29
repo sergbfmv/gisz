@@ -6,13 +6,13 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
 }
 
 .mb-3__garage {
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 68%;
 }
 
 .form-select__garage {
@@ -34,8 +34,8 @@
   border-radius: 5px;
   height: 60px;
   padding: 19px 48px;
-  margin-bottom: 1rem;
   border-color: black;
+  margin-bottom: 15px;
 }
 
 .col-sm-12__garage {
@@ -122,6 +122,11 @@
   margin-bottom: 40px;
 }
 
+.rbt-input-main {
+  height: 60px;
+  margin-right: 20px;
+}
+
 @media screen and (max-width: 1024px) {
   .mb-3__garage {
     width: 100%;
@@ -200,6 +205,12 @@
     line-height: 20px;
     padding-left: 19px;
   }
+
+  .rbt-input-main {
+    margin-bottom: 20px;
+    margin-left: 20px;
+    width: 270px;
+  }
 }
 
 @media screen and (max-width: 450px) {
@@ -216,9 +227,4 @@
   .col-sm-12__garage-form {
     margin-left: 20px;
   }
-}
-
-.form-control{
-  width: auto;
-  height: 60px;
 }

@@ -10,7 +10,9 @@ class Header extends React.Component {
 
   render() {
     let button;
+    let addButton;
     if (this.props.isLogin) {
+      addButton = <Link to="/order" type="button" className="btn btn-warning btn-order"><span> Новый заказ</span></Link>
       button = <Link to="/garage" type="button" className="btn btn-primary btn-primary__header"><span>Личный кабинет</span></Link>;
     } else {
       button = <button type="button" className="btn btn-warning" onClick={this.props.openPopup}><span>Регистрация</span></button>;
@@ -21,6 +23,7 @@ class Header extends React.Component {
             <div className="header__content">
               <Link to="/" className="header__title">gisz.ru</Link>
               <div className="header__links">
+                {addButton}
                 {button}
               </div>
             </div>
