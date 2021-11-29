@@ -127,6 +127,10 @@
   margin-right: 20px;
 }
 
+.form-control__garage {
+  max-width: 200px;
+}
+
 @media screen and (max-width: 1024px) {
   .mb-3__garage {
     width: 100%;

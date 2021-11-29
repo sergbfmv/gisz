@@ -97,16 +97,8 @@ class Garage extends React.Component {
                                   onChange={this.selectBrand}
                                 />
                                 {model}
-                                <AsyncTypeahead
-                                  id="year-search"
-                                  isLoading={this.state.isLoading}
-                                  labelKey="year"
-                                  minLength={1}
-                                  onSearch=''
-                                  options=''
-                                  placeholder="Год"
-                                  onChange=''
-                                />
+            <input className="rbt-input rbt-input-main form-control form-control__garage"  placeholder="Год выпуска" maxLength='4'>
+            </input>
                               <button type="submit" className="btn btn-primary btn-primary__garage">Применить</button>
                             </div>
                         </form>

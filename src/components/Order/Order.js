@@ -113,7 +113,7 @@ searchCities(input) {
               minLength={1}
               onSearch={this.searchBrands}
               options={this.state.brands}
-              placeholder="Марка*"
+              placeholder="Марка *"
               onChange={this.selectBrand}
             />
             <AsyncTypeahead
@@ -123,21 +123,13 @@ searchCities(input) {
               minLength={1}
               onSearch={this.searchModels}
               options={this.state.models}
-              placeholder="Модель*"
+              placeholder="Модель *"
               onChange={this.selectModel}
             />
-            <select className="form-select form-select__garage form-select__order" aria-label="Default select example">
-              <option selected>Год выпуска *</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
-            </select>
-            <select className="form-select form-select__garage form-select__order" aria-label="Default select example">
-              <option selected>VIN *</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
-            </select>
+            <input className="form-select form-select__garage form-select__order"  placeholder="Год выпуска *" maxLength='4'>
+            </input>
+            <input className="form-select form-select__garage form-select__order form-select__order_vin"  placeholder="Vin *" maxLength='17'>
+            </input>
             <div className="drop-zone">
               
             </div>
