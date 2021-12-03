@@ -21,7 +21,7 @@ class Order extends React.Component {
     this.searchModels = this.searchModels.bind(this);
     this.selectModel = this.selectModel.bind(this);
     this.searchCities = this.searchCities.bind(this);
-    this.selectCity = this.selectCity.bind(this);
+    this.selectedCity = this.selectCity.bind(this);
 }
 
 searchBrands(input) {

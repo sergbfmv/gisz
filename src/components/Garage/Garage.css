@@ -128,7 +128,7 @@
 }
 
 .form-control__garage {
-  max-width: 200px;
+  max-width: 190px;
 }
 
 @media screen and (max-width: 1024px) {
@@ -148,7 +148,7 @@
 
 @media screen and (max-width: 800px) {
   .col-sm-12__garage-form {
-    width: 588px;
+    width: 688px;
   }
 
   .mb-3__garage {
