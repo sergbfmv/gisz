@@ -86,7 +86,7 @@ class Order extends React.Component {
 
     render() {
         return (
-            <div className="container container__garage">
+            <div className="container container__order">
                 <div className="row">
                     <div className="col-sm-12 col-sm-12__car">
                         <nav aria-label="breadcrumb">

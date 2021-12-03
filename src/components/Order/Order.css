@@ -122,7 +122,8 @@
   }
 }
 
-.rbt-input {
+.container__order .rbt-input {
   width: 100%;
   margin-bottom: 15px;
+  margin-right: 0;
 }
