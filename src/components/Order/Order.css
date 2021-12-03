@@ -121,9 +121,10 @@
     line-height: 20px;
   }
 }
-
-.container__order .rbt-input {
+.rbt-input {
   width: 100%;
   margin-bottom: 15px;
+}
+.container__order .rbt-input {
   margin-right: 0;
 }
