@@ -10,25 +10,46 @@ class Order extends React.Component {
             brands: [],
             models: [],
             cities: [],
+            selectedType: 1,
             selectedBrand: null,
             selectedModel: null,
             selectedCity: null,
             isLoading: false,
+            carTypes: [
+                {key: 1, value: 'легковые'},
+                {key: 2, value: 'грузовые и автобусы'},
+                {key: 3, value: 'мотоциклы'},
+                {key: 4, value: 'спецтехника'}
+            ],
+
+            selectedVIN: null,
+            selectedAddress: null,
+            selectedYear: null,
         };
 
+        this.selectCarType = this.selectCarType.bind(this);
         this.searchBrands = this.searchBrands.bind(this);
         this.selectBrand = this.selectBrand.bind(this);
         this.searchModels = this.searchModels.bind(this);
         this.selectModel = this.selectModel.bind(this);
         this.searchCities = this.searchCities.bind(this);
         this.selectCity = this.selectCity.bind(this);
+
+        this.submitOrder = this.submitOrder.bind(this)
+        this.goBack = this.goBack.bind(this)
+    }
+
+    selectCarType(e) {
+        this.setState({
+            selectedType: e.target.value,
+        })
     }
 
     searchBrands(input) {
         this.setState({
             isLoading: true,
         })
-        axios.get("http://apelio.khonik.online/api/marka?type=1&name=" + input).then(r => {
+        axios.get(`http://apelio.khonik.online/api/marka?type=${this.state.selectedType}&name=${input}`).then(r => {
             this.setState({
                 isLoading: false,
                 brands: r.data.brands,
@@ -84,7 +105,31 @@ class Order extends React.Component {
         }
     }
 
+    submitOrder() {
+        axios.post(`http://apelio.khonik.online/api/orders`, {
+            marka_id: this.state.selectedBrand.marka_id,
+            model_id: this.state.selectedModel.model_id,
+            year: this.state.selectedYear,
+            vin: this.state.selectedVIN,
+            city_id: this.state.selectedCity.id,
+            address: this.state.selectedAddress
+        }, {
+            headers: {
+                ApiToken: localStorage.getItem('api_token')
+            }
+        }).then(response => {
+            let order = response.data.data;
+            // order.id -> ID заказа, нужное для прикрепления деталей к заказу
+
+        })
+    }
+
+    goBack() {
+        // позвращаемся в профиль
+    }
+
     render() {
+        let typesList = this.state.carTypes.map((type) => <option value={type.key}>{type.value}</option>)
         return (
             <div className="container container__order">
                 <div className="row">
@@ -102,11 +147,10 @@ class Order extends React.Component {
                             <h3 className="order-form__title">Новый запрос</h3>
                             <div className="mb-3 mb-3__order">
                                 <select className="form-select form-select__garage form-select__order"
-                                        aria-label="Default select example">
-                                    <option selected>Тип ТС *</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                        aria-label="Default select example"
+                                        onChange={this.selectCarType}
+                                >
+                                    {typesList}
                                 </select>
                                 <AsyncTypeahead
                                     id="search brand-search"
@@ -129,11 +173,17 @@ class Order extends React.Component {
                                     onChange={this.selectModel}
                                 />
                                 <input className="form-select form-select__garage form-select__order"
-                                       placeholder="Год выпуска *" maxLength='4'>
+                                       placeholder="Год выпуска *"
+                                       maxLength='4'
+                                       onChange={e => this.setState({selectedYear: e.target.value})}
+                                >
                                 </input>
                                 <input
                                     className="form-select form-select__garage form-select__order form-select__order_vin"
-                                    placeholder="Vin *" maxLength='17'>
+                                    placeholder="Vin *" maxLength='17'
+
+                                    onChange={e => this.setState({selectedVIN: e.target.value})}
+                                >
                                 </input>
                                 <div className="drop-zone">
 
@@ -159,17 +209,21 @@ class Order extends React.Component {
                                 </div>
                                 <div className="mb-3 mb-3__about">
                                     <input type="text" placeholder="Адрес доставки *" className="form-input__order"
-                                           required/>
+                                           required
+                                           onChange={e => this.setState({selectedAddress: e.target.value})}
+                                    />
                                 </div>
                                 <div className="mb-3 mb-3__about">
                                     <input type="text" placeholder="Офис *" className="form-input__order" required/>
                                 </div>
                             </div>
                             <div className="order-form__buttons">
-                                <button type="submit"
-                                        className="btn btn-primary btn-primary__garage btn-primary__order">Отправить
+                                <button type="button"
+                                        className="btn btn-primary btn-primary__garage btn-primary__order"
+                                        onClick={this.submitOrder}
+                                >Отправить
                                 </button>
-                                <button type="submit" className="btn-cancel">Отмена</button>
+                                <button type="button" className="btn-cancel" onClick={this.goBack}>Отмена</button>
                             </div>
                         </form>
                     </div>
