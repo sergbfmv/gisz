@@ -29,6 +29,10 @@
   margin-bottom: 15px;
 }
 
+.form-select__order::placeholder {
+  color: #D6D6D6;
+}
+
 .form-select__order_vin {
   text-transform: uppercase;
 }
@@ -93,6 +97,25 @@
   background-position: center;
 }
 
+.form-control {
+  font-size: 18px;
+  line-height: 23px;
+  font-weight: 600;
+}
+
+.rbt-input {
+  width: 100%;
+  margin-bottom: 15px;
+}
+.container__order .rbt-input {
+  margin-right: 0;
+  padding-left: 30px;
+}
+
+.container__order .rbt-input::placeholder {
+  color: #D6D6D6;
+}
+
 @media screen and (max-width: 768px) {
 
   .btn-primary__order {
@@ -120,11 +143,4 @@
     font-size: 16px;
     line-height: 20px;
   }
-}
-.rbt-input {
-  width: 100%;
-  margin-bottom: 15px;
-}
-.container__order .rbt-input {
-  margin-right: 0;
 }
