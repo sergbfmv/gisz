@@ -40,6 +40,7 @@ class Order extends React.Component {
         this.submitOrder = this.submitOrder.bind(this)
         this.goBack = this.goBack.bind(this)
         this.addDetail = this.addDetail.bind(this)
+        this.detailUpdated = this.detailUpdated.bind(this)
     }
 
     selectCarType(e) {
@@ -123,6 +124,23 @@ class Order extends React.Component {
         }).then(response => {
             let order = response.data.data;
             // order.id -> ID заказа, нужное для прикрепления деталей к заказу
+            this.state.details.forEach(detail => {
+                this.attachDetailToOrder(order.id, detail)
+            })
+        })
+    }
+
+    attachDetailToOrder(order_id, detail) {
+        axios.post(`http://apelio.khonik.online/api/details`, {
+            order_id: order_id,
+            name: detail.name,
+            type: detail.type,
+            state: detail.state
+        }, {
+            headers: {
+                ApiToken: localStorage.getItem('api_token')
+            }
+        }).then(response => {
 
         })
     }
@@ -133,7 +151,6 @@ class Order extends React.Component {
     }
 
     addDetail() {
-        console.log('add details')
         let currentDetails = this.state.details;
         let newDetail = {
             name: "",
@@ -143,6 +160,14 @@ class Order extends React.Component {
         currentDetails.push(newDetail);
         this.setState({
             details: currentDetails,
+        })
+    }
+
+    detailUpdated(index, event) {
+        let details = this.state.details;
+        details[index] = event;
+        this.setState({
+            details: details
         })
     }
 
@@ -235,7 +260,12 @@ class Order extends React.Component {
                                     <input type="text" placeholder="Офис *" className="form-input__order" required/>
                                 </div>
 
-                                {this.state.details.map((detail, index) => <DetailForm detail={detail} index={index}/>)}
+                                {this.state.details.map((detail, index) => <DetailForm name={detail.name}
+                                                                                       type={detail.type}
+                                                                                       state={detail.state}
+                                                                                       index={index}
+                                                                                       onChange={(event) => this.detailUpdated(index, event)}
+                                />)}
                                 <button type="button" className="order-button" onClick={this.addDetail}>
                                     + Добавить деталь
                                 </button>
@@ -261,17 +291,77 @@ class DetailForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            detail: props.detail,
+            state: props.state,
+            name: props.name,
+            type: props.type,
             index: props.index
         }
+
+        this.changeName = this.changeName.bind(this);
+        this.changeType = this.changeType.bind(this);
+        this.changeState = this.changeState.bind(this);
+    }
+
+    changeName(e) {
+        this.setState({
+            name: e.target.value
+        })
+
+        this.detailChanged()
+    }
+
+    changeType(e) {
+        this.setState({
+            type: e.target.value
+        })
+
+        this.detailChanged()
+    }
+
+    changeState(e) {
+        this.setState({
+            state: e.target.value
+        })
+        this.detailChanged()
+    }
+
+    detailChanged() {
+        let detail = {
+            name: this.state.name,
+            type: this.state.type,
+            state: this.state.state,
+        }
+        this.props.onChange(detail)
     }
 
     render() {
         return (
             <div>
-                <input placeholder='Введите название' type='text' name={`name_${this.state.index}`} value={this.state.detail.name}/>
-                <input placeholder='Введите тип' type='text' name={`type_${this.state.index}`} value={this.state.detail.type}/>
-                <input placeholder='Введите состояние' type='text' name={`state_${this.state.index}`} value={this.state.detail.state}/>
+                <input
+                    className="form-select form-select__garage form-select__order"
+                    placeholder='Введите название'
+                    type='text'
+                    name={`name_${this.state.index}`}
+                    value={this.state.name}
+                    onChange={this.changeName}
+                />
+                <div>
+                    <input
+                        className="form-select form-select__garage form-select__order"
+                        placeholder='Введите тип'
+                        type='text'
+                        name={`type_${this.state.index}`}
+                        onChange={this.changeType}
+                        value={this.state.type}/>
+                    <input
+                        className="form-select form-select__garage form-select__order"
+                        placeholder='Введите состояние'
+                        type='text'
+                        name={`state_${this.state.index}`}
+                        value={this.state.state}
+                        onChange={this.changeState}
+                    />
+                </div>
             </div>
         )
     }
