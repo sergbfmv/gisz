@@ -116,8 +116,23 @@
   color: #D6D6D6;
 }
 
-@media screen and (max-width: 768px) {
+.order-button {
+  padding: 10px;
+  background-color: white;
+  border: 1px solid blue;
+  font-size: 18px;
+  line-height: 25px;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
 
+.order-button:hover {
+  opacity: 0.6;
+  background-color: gray;
+  color: blue;
+}
+
+@media screen and (max-width: 768px) {
   .btn-primary__order {
     padding: 20px 30px;
   }

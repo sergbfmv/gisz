@@ -21,6 +21,7 @@ class Order extends React.Component {
                 {key: 3, value: 'мотоциклы'},
                 {key: 4, value: 'спецтехника'}
             ],
+            details: [],
 
             selectedVIN: null,
             selectedAddress: null,
@@ -37,6 +38,7 @@ class Order extends React.Component {
 
         this.submitOrder = this.submitOrder.bind(this)
         this.goBack = this.goBack.bind(this)
+        this.addDetail = this.addDetail(this)
     }
 
     selectCarType(e) {
@@ -128,6 +130,10 @@ class Order extends React.Component {
         // позвращаемся в профиль
     }
 
+    addDetail() {
+      
+    }
+
     render() {
         let typesList = this.state.carTypes.map((type) => <option value={type.key}>{type.value}</option>)
       let model;
@@ -194,13 +200,6 @@ class Order extends React.Component {
                                 <div className="drop-zone">
 
                                 </div>
-                                <select className="form-select form-select__garage form-select__order"
-                                        aria-label="Default select example">
-                                    <option selected>Список запчастей *</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                </select>
                                 <div className="mb-3 mb-3__about">
                                     <AsyncTypeahead
                                         id="city-search"
@@ -222,6 +221,7 @@ class Order extends React.Component {
                                 <div className="mb-3 mb-3__about">
                                     <input type="text" placeholder="Офис *" className="form-input__order" required/>
                                 </div>
+                                <button type="button" className="order-button" onClick={this.addDetail}>+ Добавить деталь</button>
                             </div>
                             <div className="order-form__buttons">
                                 <button type="button"
