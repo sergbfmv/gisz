@@ -21,6 +21,7 @@ class Order extends React.Component {
                 {key: 3, value: 'мотоциклы'},
                 {key: 4, value: 'спецтехника'}
             ],
+            detailsCount: 0,
             details: [],
 
             selectedVIN: null,
@@ -38,7 +39,7 @@ class Order extends React.Component {
 
         this.submitOrder = this.submitOrder.bind(this)
         this.goBack = this.goBack.bind(this)
-        this.addDetail = this.addDetail(this)
+        this.addDetail = this.addDetail.bind(this)
     }
 
     selectCarType(e) {
@@ -128,29 +129,41 @@ class Order extends React.Component {
 
     goBack() {
         // позвращаемся в профиль
+        console.log("BACK")
     }
 
     addDetail() {
-      
+        console.log('add details')
+        let currentDetails = this.state.details;
+        let newDetail = {
+            name: "",
+            state: "",
+            type: ""
+        };
+        currentDetails.push(newDetail);
+        this.setState({
+            details: currentDetails,
+        })
     }
 
     render() {
         let typesList = this.state.carTypes.map((type) => <option value={type.key}>{type.value}</option>)
-      let model;
-      if (this.state.selectedBrand === null) {
-        model = <AsyncTypeahead placeholder="Модель" disabled />
-      } else {
-        model = <AsyncTypeahead
-        id="model-search"
-        isLoading={this.state.isLoading}
-        labelKey="name"
-        minLength={1}
-        onSearch={this.searchModels}
-        options={this.state.models}
-        placeholder="Модель"
-        onChange={this.selectModel}
-      />
-      }
+        let model;
+        if (this.state.selectedBrand === null) {
+            model = <AsyncTypeahead placeholder="Модель" disabled/>
+        } else {
+            model = <AsyncTypeahead
+                id="model-search"
+                isLoading={this.state.isLoading}
+                labelKey="name"
+                minLength={1}
+                onSearch={this.searchModels}
+                options={this.state.models}
+                placeholder="Модель"
+                onChange={this.selectModel}
+            />
+        }
+
         return (
             <div className="container container__order">
                 <div className="row">
@@ -183,7 +196,7 @@ class Order extends React.Component {
                                     placeholder="Марка *"
                                     onChange={this.selectBrand}
                                 />
-                               {model}
+                                {model}
                                 <input className="form-select form-select__garage form-select__order"
                                        placeholder="Год выпуска *"
                                        maxLength='4'
@@ -221,19 +234,44 @@ class Order extends React.Component {
                                 <div className="mb-3 mb-3__about">
                                     <input type="text" placeholder="Офис *" className="form-input__order" required/>
                                 </div>
-                                <button type="button" className="order-button" onClick={this.addDetail}>+ Добавить деталь</button>
+
+                                {this.state.details.map((detail, index) => <DetailForm detail={detail} index={index}/>)}
+                                <button type="button" className="order-button" onClick={this.addDetail}>
+                                    + Добавить деталь
+                                </button>
                             </div>
                             <div className="order-form__buttons">
                                 <button type="button"
                                         className="btn btn-primary btn-primary__garage btn-primary__order"
                                         onClick={this.submitOrder}
-                                >Отправить
+                                >
+                                    Отправить
                                 </button>
                                 <button type="button" className="btn-cancel" onClick={this.goBack}>Отмена</button>
                             </div>
                         </form>
                     </div>
                 </div>
+            </div>
+        )
+    }
+}
+
+class DetailForm extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            detail: props.detail,
+            index: props.index
+        }
+    }
+
+    render() {
+        return (
+            <div>
+                <input placeholder='Введите название' type='text' name={`name_${this.state.index}`} value={this.state.detail.name}/>
+                <input placeholder='Введите тип' type='text' name={`type_${this.state.index}`} value={this.state.detail.type}/>
+                <input placeholder='Введите состояние' type='text' name={`state_${this.state.index}`} value={this.state.detail.state}/>
             </div>
         )
     }
