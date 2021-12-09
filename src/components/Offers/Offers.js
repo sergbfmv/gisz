@@ -6,7 +6,7 @@ import axios from "axios"
 
 function Offers(props) {
   const [order, setOrder] = React.useState(null)
-  const [offer, setOffer] = React.useState(null)
+
 
   let {orderId} = useParams()
 
@@ -25,23 +25,6 @@ function Offers(props) {
     getOrder()
   }, [])
 
-
-  function getOffer() {
-    axios.get("http://apelio.khonik.online/api/orders/" + orderId + "/relevant-companies", {
-      headers: {
-        ApiToken: localStorage.getItem('api_token')
-      }
-    })
-    .then(res => {
-      setOffer(res.data.companies)
-    })
-  }
-  
-  React.useEffect(()=>{
-    getOffer()
-  }, [])
-
-  console.log(offer)
 
   return (
     <div className="container container__garage">
@@ -79,17 +62,7 @@ function Offers(props) {
                 <th scope="col" className="garage-table__title garage-table__title-car">Действия</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td>3500 руб</td>
-                <td>В наличии</td>
-                <td>{offer?.state}</td>
-                <td></td>
-                <td>08.05.21</td>
-                <td>{offer?.title} {offer?.address} +7 (925) 680-16-00</td>
-                <td><button type="button" className="buy-btn"><img src={buybtn} alt=""></img></button></td>
-              </tr>
-            </tbody>
+            <OfferItem orderId={orderId} />
           </table>
         </div>
         <div className="col-sm-12 col-xxl-11 col-sm-12__garage-text">
@@ -103,3 +76,36 @@ function Offers(props) {
 }
 
 export default Offers
+
+function OfferItem(props) {
+  const [offer, setOffer] = React.useState(null)
+
+  function getOffer() {
+    axios.get("http://apelio.khonik.online/api/orders/" + props.orderId + "/relevant-companies", {
+      headers: {
+        ApiToken: localStorage.getItem('api_token')
+      }
+    })
+    .then(res => {
+      setOffer(res.data.companies)
+    })
+  }
+  
+  React.useEffect(()=>{
+    getOffer()
+  }, [])
+
+  return(
+    <tbody>
+    <tr>
+      <td>3500 руб</td>
+      <td>{offer && offer.length>0 ? offer[0]?.detail_states_label : null}</td>
+      <td>{offer && offer.length>0 ? offer[0]?.details_state : null}</td>
+      <td></td>
+      <td>{offer && offer.length>0 ? offer[0]?.updated_at : null}</td>
+      <td>{offer && offer.length>0 ? offer[0]?.title : null} {offer && offer.length>0 ? offer[0]?.address : null} {offer && offer.length>0 ? offer[0]?.contacts[0].value : null}</td>
+      <td><button type="button" className="buy-btn"><img src={buybtn} alt=""></img></button></td>
+    </tr>
+  </tbody>
+  )
+}
