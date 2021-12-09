@@ -1,7 +1,48 @@
 import "./Offers.css"
 import buybtn from "../../images/buy-btn.png"
+import React from "react"
+import { useParams } from "react-router"
+import axios from "axios"
 
-function Offers() {
+function Offers(props) {
+  const [order, setOrder] = React.useState(null)
+  const [offer, setOffer] = React.useState(null)
+
+  let {orderId} = useParams()
+
+  function getOrder() {
+    axios.get("http://apelio.khonik.online/api/orders/" + orderId, {
+      headers: {
+        ApiToken: localStorage.getItem('api_token')
+      }
+    })
+    .then(res => {
+      setOrder(res.data.order)
+    })
+  }
+
+  React.useEffect(()=>{
+    getOrder()
+  }, [])
+
+
+  function getOffer() {
+    axios.get("http://apelio.khonik.online/api/orders/" + orderId + "/relevant-companies", {
+      headers: {
+        ApiToken: localStorage.getItem('api_token')
+      }
+    })
+    .then(res => {
+      setOffer(res.data.companies)
+    })
+  }
+  
+  React.useEffect(()=>{
+    getOffer()
+  }, [])
+
+  console.log(offer)
+
   return (
     <div className="container container__garage">
       <div className="row">
@@ -9,7 +50,7 @@ function Offers() {
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
               <li className="breadcrumb-item"><a className="breadcrumb__link" href="/garage">Мои машины</a></li>
-              <li className="breadcrumb-item active" aria-current="page">BMW 6 GT Liftback (G32) 2.0 (249Hp) (B48B20) RWD AT</li>
+              <li className="breadcrumb-item active" aria-current="page">{order?.brand} {order?.model}</li>
             </ol>
           </nav>
         </div>
@@ -23,7 +64,7 @@ function Offers() {
           </div>
           <button type="submit" className="btn btn-primary btn-primary__garage">Применить</button>
         </form>
-        <h3 className="offers__title">Запрос №20050313 от 29.10.21</h3>
+        <h3 className="offers__title">Запрос №{order?.id} от {order?.created_at}</h3>
         <p className="offers__text">Предложения компаний:</p>
         <div className="col-sm-12 col-sm-12__garage col-sm-12__offers">
           <table className="table" id="offers-table__id">
@@ -42,10 +83,10 @@ function Offers() {
               <tr>
                 <td>3500 руб</td>
                 <td>В наличии</td>
-                <td>б.у. оригинал</td>
+                <td>{offer?.state}</td>
                 <td></td>
                 <td>08.05.21</td>
-                <td>Автодеталь Москва ул. Ижорская, дом 13/18 +7 (925) 680-16-00</td>
+                <td>{offer?.title} {offer?.address} +7 (925) 680-16-00</td>
                 <td><button type="button" className="buy-btn"><img src={buybtn} alt=""></img></button></td>
               </tr>
             </tbody>

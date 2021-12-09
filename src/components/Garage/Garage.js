@@ -13,15 +13,19 @@ class Garage extends React.Component {
         this.state = {
             brands: [],
             models: [],
+            selectedYear: null,
             selectedBrand: null,
             selectedModel: null,
             isLoading: false,
+            orders: [],
         };
 
         this.searchBrands = this.searchBrands.bind(this);
         this.selectBrand = this.selectBrand.bind(this);
         this.searchModels = this.searchModels.bind(this);
-        this.selectModel = this.selectModel.bind(this)
+        this.selectModel = this.selectModel.bind(this);
+        this.getOrders = this.getOrders.bind(this)
+        this.selectYear = this.selectYear.bind(this)
     }
 
     searchBrands(input) {
@@ -64,6 +68,41 @@ class Garage extends React.Component {
       }
   }
 
+  selectYear(e) {
+    this.setState({
+      selectedYear: e.target.value
+    })
+  }
+
+  getOrders() {
+    let query={
+      brand:this.state.selectedBrand?this.state.selectedBrand.name:"",
+      model:this.state.selectedModel?this.state.selectedModel.name:"",
+      year:this.state.selectedYear?this.state.selectedYear:""
+    };
+  
+    axios.get("http://apelio.khonik.online/api/orders?" + new URLSearchParams(query).toString(), {
+      headers: {
+        ApiToken: localStorage.getItem('api_token')
+    }
+  })
+  .then((res) => {
+    let orders = res.data.orders
+    console.log('orders', orders)
+    if (orders) {
+      this.setState({
+       orders: orders
+     })
+    }
+  })
+}
+
+  componentDidMount() {
+    this.getOrders()
+  }
+
+
+
     render() {
       let model;
       if (this.state.selectedBrand === null) {
@@ -97,9 +136,8 @@ class Garage extends React.Component {
                                   onChange={this.selectBrand}
                                 />
                                 {model}
-            <input className="rbt-input rbt-input-main form-control form-control__garage"  placeholder="Год выпуска" maxLength='4'>
-            </input>
-                              <button type="submit" className="btn btn-primary btn-primary__garage">Применить</button>
+            <input className="rbt-input rbt-input-main form-control form-control__garage"  placeholder="Год выпуска" maxLength='4' onChange={this.selectYear}></input>
+                              <button type="button" className="btn btn-primary btn-primary__garage" onClick={this.getOrders}>Применить</button>
                             </div>
                         </form>
                     </div>
@@ -116,66 +154,10 @@ class Garage extends React.Component {
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>№19346</td>
-                                <td>
-                                  <button type="button" className="garage-table__repeat-button"><img src={repeatbtn} alt=""></img></button>
-                                    <button type="button" className="garage-table__copy-button"><img src={copybtn} alt=""></img></button>
-                                </td>
-                                <td><Link to="/car" className="garage-link">BMW 6 GT Liftback (G32) 2.0 (249Hp) (B48B20)
-                                    RWD AT</Link></td>
-                                <td>2018</td>
-                                <td>34235245</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>№18248</td>
-                                <td>
-                                    <button type="button" className="garage-table__repeat-button"><img src={repeatbtn}
-                                                                                                       alt=""></img>
-                                    </button>
-                                    <button type="button" className="garage-table__copy-button"><img src={copybtn}
-                                                                                                     alt=""></img>
-                                    </button>
-                                </td>
-                                <td><Link to="/car" className="garage-link">Cadillac Escalade SUV (L86) 6.2 (409Hp) (GMT
-                                    K2) 4WD AT</Link></td>
-                                <td>2011</td>
-                                <td>614613</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>№204</td>
-                                <td>
-                                    <button type="button" className="garage-table__repeat-button"><img src={repeatbtn}
-                                                                                                       alt=""></img>
-                                    </button>
-                                    <button type="button" className="garage-table__copy-button"><img src={copybtn}
-                                                                                                     alt=""></img>
-                                    </button>
-                                </td>
-                                <td><Link to="/car" className="garage-link">Aston Martin Vanquish Coupe 5.9 (565Hp)
-                                    (AM11) RWD AT</Link></td>
-                                <td>2007</td>
-                                <td>353721</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>№74629</td>
-                                <td>
-                                    <button type="button" className="garage-table__repeat-button"><img src={repeatbtn}
-                                                                                                       alt=""></img>
-                                    </button>
-                                    <button type="button" className="garage-table__copy-button"><img src={copybtn}
-                                                                                                     alt=""></img>
-                                    </button>
-                                </td>
-                                <td><Link to="/car" className="garage-link">Tesla Model X SUV 0.0E (525Hp) 4WD AT</Link>
-                                </td>
-                                <td>2020</td>
-                                <td>12432543</td>
-                                <td></td>
-                            </tr>
+                          {this.state.orders.map(order => 
+                            <OrderItem key={order.id} order={order} />
+                          )
+                        }
                             </tbody>
                         </table>
                     </div>
@@ -186,6 +168,32 @@ class Garage extends React.Component {
             </div>
         )
     }
+}
+
+class OrderItem extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      order: props.order
+    }
+  }
+
+  render() {
+    return(
+      <tr>
+        <td>{this.state.order.id}</td>
+        <td>
+            <button type="button" className="garage-table__repeat-button"><img src={repeatbtn} alt=""></img></button>
+            <button type="button" className="garage-table__copy-button"><img src={copybtn} alt=""></img></button>
+        </td>
+        <td><Link to={`/garage/${this.state.order.id}`} className="garage-link">{this.state.order.brand} {this.state.order.model}</Link></td>
+        <td>{this.state.order.year}</td>
+        <td>{this.state.order.vin}</td>
+        <td></td>
+      </tr>
+
+    )
+  }
 }
 
 /*function Garage() {

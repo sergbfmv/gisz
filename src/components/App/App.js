@@ -60,8 +60,8 @@ class App extends React.Component {
                     <Routes>
                         <Route path="/" element={<Main/>}/>
                         <Route path="/garage" element={<Garage/>}/>
-                        <Route path="/car" element={<Car/>}/>
-                        <Route path="/offers" element={<Offers/>}/>
+                        <Route path="/garage/:orderId" element={<Car/>}/>
+                        <Route path="/offers/:orderId" element={<Offers/>}/>
                         <Route path="/order" element={<Order/>}/>
                     </Routes>
                     <Footer/>

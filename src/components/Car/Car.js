@@ -1,7 +1,44 @@
-import { Link } from "react-router-dom"
+import axios from "axios"
+import React from "react"
+import { Link, useParams } from "react-router-dom"
 import "./Car.css"
 
-function Car() {
+function Car(props) {
+  const [order, setOrder] = React.useState(null)
+  const [offer, setOffer] = React.useState(null)
+
+  let {orderId} = useParams()
+
+  function getOrder() {
+    axios.get("http://apelio.khonik.online/api/orders/" + orderId, {
+      headers: {
+        ApiToken: localStorage.getItem('api_token')
+      }
+    })
+    .then(res => {
+      setOrder(res.data.order)
+    })
+  }
+
+  React.useEffect(()=>{
+    getOrder()
+  }, [])
+
+  function getOffer() {
+    axios.get("http://apelio.khonik.online/api/orders/" + orderId + "/relevant-companies", {
+      headers: {
+        ApiToken: localStorage.getItem('api_token')
+      }
+    })
+    .then(res => {
+      setOffer(res.data.companies)
+    })
+  }
+  
+  React.useEffect(()=>{
+    getOffer()
+  }, [])
+
   return (
     <div className="container container__garage">
       <div className="row">
@@ -9,7 +46,7 @@ function Car() {
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
               <li className="breadcrumb-item"><a className="breadcrumb__link" href="/garage">Мои машины</a></li>
-              <li className="breadcrumb-item active" aria-current="page">BMW 6 GT Liftback (G32) 2.0 (249Hp) (B48B20) RWD AT</li>
+              <li className="breadcrumb-item active" aria-current="page">{order?.brand} {order?.model}</li>
             </ol>
           </nav>
         </div>
@@ -17,15 +54,15 @@ function Car() {
           <table className="table" id="car-table__id">
             <thead>
               <tr>
-                <th scope="col" className="garage-table__title garage-table__title-car">Запрос №20050313</th>
+                <th scope="col" className="garage-table__title garage-table__title-car">Запрос №{order?.id}</th>
                 <th scope="col" className="garage-table__title garage-table__title-car">Ответы</th>
                 <th scope="col" className="garage-table__title garage-table__title-car">Лучшие предложения</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td><Link to="/offers" className="garage-link">BMW 6 GT Liftback (G32) 2.0 (249Hp) (B48B20) RWD AT</Link></td>
-                <td>1/0</td>
+                <td><Link to={`/offers/${orderId}`} className="garage-link">{order?.brand} {order?.model}</Link></td>
+                <td>{offer?.length}</td>
                 <td>"Автодеталь"</td>
               </tr>
             </tbody>
