@@ -34,7 +34,7 @@ function Car(props) {
       setOffer(res.data.companies)
     })
   }
-  
+
   React.useEffect(()=>{
     getOffer()
   }, [])
@@ -63,14 +63,14 @@ function Car(props) {
               <tr>
                 <td><Link to={`/offers/${orderId}`} className="garage-link">{order?.brand} {order?.model}</Link></td>
                 <td>{offer?.length}</td>
-                <td>"Автодеталь"</td>
+                <td>{offer?.length>0?offer[0].title:"-"}</td>
               </tr>
             </tbody>
           </table>
         </div>
         <div className="col-sm-12 col-xxl-11 col-sm-12__garage-text">
-          <p><span className="garage-text__span">Внимание!</span> Данный интернет-сайт носит исключительно информационный характер и ни при каких условиях не является публичной 
-            офертой. Все зарегистрированные партнеры являются самостоятельными юридическими или физическими лицами, за деятельность которых 
+          <p><span className="garage-text__span">Внимание!</span> Данный интернет-сайт носит исключительно информационный характер и ни при каких условиях не является публичной
+            офертой. Все зарегистрированные партнеры являются самостоятельными юридическими или физическими лицами, за деятельность которых
             администрация сайта Gisz.ru ответственности не несет.</p>
         </div>
       </div>
