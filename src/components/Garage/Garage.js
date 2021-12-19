@@ -88,7 +88,6 @@ class Garage extends React.Component {
   })
   .then((res) => {
     let orders = res.data.orders
-    console.log('orders', orders)
     if (orders) {
       this.setState({
        orders: orders
