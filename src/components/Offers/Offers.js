@@ -32,6 +32,18 @@ function Offers(props) {
         setValue(value)
     }
 
+    function getOffers() {
+        axios.get("http://apelio.khonik.online/api/orders?status" + value, {
+            headers: {
+                ApiToken: localStorage.getItem('api_token')
+            }
+        })
+            .then(res => {
+                setOrder(res.data.order)
+            })
+    }
+
+
     return (
         <div className="container container__garage">
             <div className="row">
@@ -57,7 +69,7 @@ function Offers(props) {
                             <option value="5">В архиве</option>
                         </select>
                     </div>
-                    <button type="button" className="btn btn-primary btn-primary__garage">Применить</button>
+                    <button type="button" className="btn btn-primary btn-primary__garage" onClick={getOffers}>Применить</button>
                 </form>
                 <h3 className="offers__title">Запрос №{order?.id} от {order?.created_at}</h3>
                 <p className="offers__text">Предложения компаний:</p>
