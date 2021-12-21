@@ -75,10 +75,10 @@ class Garage extends React.Component {
   }
 
   getOrders() {
-    let query={
-      brand:this.state.selectedBrand?this.state.selectedBrand.name:"",
-      model:this.state.selectedModel?this.state.selectedModel.name:"",
-      year:this.state.selectedYear?this.state.selectedYear:""
+    let query = {
+      brand: this.state.selectedBrand ? this.state.selectedBrand.name : "",
+      model: this.state.selectedModel ? this.state.selectedModel.name : "",
+      year: this.state.selectedYear ? this.state.selectedYear : ""
     };
   
     axios.get("http://apelio.khonik.online/api/orders?" + new URLSearchParams(query).toString(), {
@@ -99,8 +99,6 @@ class Garage extends React.Component {
   componentDidMount() {
     this.getOrders()
   }
-
-
 
     render() {
       let model;

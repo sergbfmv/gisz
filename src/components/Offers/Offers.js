@@ -3,14 +3,16 @@ import buybtn from "../../images/buy-btn.png"
 import React from "react"
 import {useParams} from "react-router"
 import axios from "axios"
+import moment from "moment"
+import 'moment/locale/ru'
 
 function Offers(props) {
     const [order, setOrder] = React.useState(null)
-
+    const [value, setValue] = React.useState(null)
 
     let {orderId} = useParams()
 
-    function getOrder() {
+    function getOffer() {
         axios.get("http://apelio.khonik.online/api/orders/" + orderId, {
             headers: {
                 ApiToken: localStorage.getItem('api_token')
@@ -22,9 +24,13 @@ function Offers(props) {
     }
 
     React.useEffect(() => {
-        getOrder()
+        getOffer()
     }, [])
 
+    function getValue(e) {
+        let value = e.target.value
+        setValue(value)
+    }
 
     return (
         <div className="container container__garage">
@@ -41,13 +47,17 @@ function Offers(props) {
                 </div>
                 <form className="garage__form offers__form">
                     <div className="mb-3 mb-3__garage mb-3__offers">
-                        <select className="form-select form-select__garage" aria-label="Default select example">
-                            <option selected>Состояние заказов</option>
-                            <option value="1">Активные</option>
-                            <option value="2">Завершённые</option>
+                        <select className="form-select form-select__garage" aria-label="Default select example" onChange={getValue} id="select">
+                            <option selected value={'value'}>Состояние заказов</option>
+                            <option value="0">Новый заказ</option>
+                            <option value="1">Заказ в обработке</option>
+                            <option value="2">Ожидает товара</option>
+                            <option value="3">В доставке</option>
+                            <option value="4">Доставлено</option>
+                            <option value="5">В архиве</option>
                         </select>
                     </div>
-                    <button type="submit" className="btn btn-primary btn-primary__garage">Применить</button>
+                    <button type="button" className="btn btn-primary btn-primary__garage">Применить</button>
                 </form>
                 <h3 className="offers__title">Запрос №{order?.id} от {order?.created_at}</h3>
                 <p className="offers__text">Предложения компаний:</p>
@@ -125,6 +135,7 @@ function OfferItem(props) {
             // Компания выбрана, УРА!
         })
     }
+    moment.locale()
 
     return (
         <tr>
@@ -132,8 +143,8 @@ function OfferItem(props) {
             <td>{offer.detail_states_label}</td>
             <td>{offer.details_state}</td>
             <td></td>
-            <td>{offer.updated_at}</td>
-            <td>{offer.title} {offer.address} {offer.contacts.length > 0 ? offer.contacts[0].value : '-'}</td>
+            <td>{moment(offer.updated_at).format('LLL')}</td>
+            <td>{offer.title}<br/>{offer.address}<br/>{offer.contacts.length > 0 ? offer.contacts[0].value : '-'}</td>
             <td>
                 <button onClick={selectOffer} type="button" className="buy-btn"><img src={buybtn} alt=""></img></button>
             </td>
