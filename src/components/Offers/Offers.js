@@ -33,7 +33,7 @@ function Offers(props) {
     }
 
     function getOffers() {
-        axios.get("http://apelio.khonik.online/api/orders?status" + value, {
+        axios.get("http://apelio.khonik.online/api/orders?status=" + value, {
             headers: {
                 ApiToken: localStorage.getItem('api_token')
             }
