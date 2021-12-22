@@ -26,6 +26,7 @@ function Offers(props) {
         getOffer()
     }, [])
 
+
     return (
         <div className="container container__garage">
             <div className="row">
@@ -46,8 +47,9 @@ function Offers(props) {
                         <thead>
                         <tr>
                             <th scope="col" className="garage-table__title garage-table__title-car">Цена</th>
-                            <th scope="col" className="garage-table__title garage-table__title-car">Наличие</th>
                             <th scope="col" className="garage-table__title garage-table__title-car">Состояние</th>
+                            <th scope="col" className="garage-table__title garage-table__title-car">Возможности оплаты
+                            </th>
                             <th scope="col" className="garage-table__title garage-table__title-car">Примечание</th>
                             <th scope="col" className="garage-table__title garage-table__title-car">Дата</th>
                             <th scope="col" className="garage-table__title garage-table__title-car">Компания</th>
@@ -73,6 +75,7 @@ export default Offers
 
 function OffersList(props) {
     const [offers, setOffers] = React.useState(null)
+    const [isSelected, setIsSelected] = React.useState(false)
 
     function getOffer() {
         axios.get("http://apelio.khonik.online/api/orders/" + props.orderId + "/relevant-companies", {
@@ -82,6 +85,7 @@ function OffersList(props) {
         })
             .then(res => {
                 setOffers(res.data.companies)
+                setIsSelected(res.data.is_selected);
             })
     }
 
@@ -89,7 +93,8 @@ function OffersList(props) {
         getOffer()
     }, [])
 
-    let list = offers ? offers.map(offer => <OfferItem key={offer.id} orderId={props.orderId} offer={offer}/>) : null;
+    let list = offers ? offers.map(offer => <OfferItem onSelected={getOffer} isSelected={isSelected} key={offer.id} orderId={props.orderId}
+                                                       offer={offer}/>) : null;
 
     return (
         <tbody>
@@ -99,11 +104,10 @@ function OffersList(props) {
 }
 
 function OfferItem(props) {
-    //const [offer, setOffer] = React.useState(null)
     const offer = props.offer;
+    const isSelected = props.isSelected;
 
     function selectOffer() {
-        console.log(offer);
         axios.post(`http://apelio.khonik.online/api/orders/${props.orderId}/set-company`, {
             company_id: offer.id,
         }, {
@@ -113,20 +117,39 @@ function OfferItem(props) {
         }).then(r => {
             console.log(r.data);
             // Компания выбрана, УРА!
+            props.onSelected()
+
         })
     }
+
     moment.locale()
+
+    let action;
+    if (isSelected) {
+        if (offer.is_selected) {
+            action = <svg width="24" height="24" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"/>
+            </svg>
+        }
+    } else {
+        action =
+            <button onClick={selectOffer} type="button" className="buy-btn"><img src={buybtn} alt=""></img></button>
+    }
+
 
     return (
         <tr>
             <td>3500 руб</td>
             <td>{offer.detail_states_label}</td>
-            <td>{offer.details_state}</td>
-            <td></td>
+            <td>{offer.payment_type_label}</td>
+            <td>
+                Часы работы: {offer.working_hours}<br/>
+                Доставка: {offer.with_delivery ? 'Есть' : 'Нет'}
+            </td>
             <td>{moment(offer.updated_at).format('LLL')}</td>
             <td>{offer.title}<br/>{offer.address}<br/>{offer.contacts.length > 0 ? offer.contacts[0].value : '-'}</td>
             <td>
-                <button onClick={selectOffer} type="button" className="buy-btn"><img src={buybtn} alt=""></img></button>
+                {action}
             </td>
         </tr>
     )
