@@ -50,23 +50,27 @@
 }
 
 #garage-table__id tr th:nth-child(1){
-  width: 12%;
+  width: 14%;
 }
 
 #garage-table__id tr th:nth-child(2){
-  width: 12%;
+  width: 14%;
 }
 
 #garage-table__id tr th:nth-child(3){
-  width: 52%;
+  width: 50%;
 }
 
 #garage-table__id tr th:nth-child(4){
-  width: 12%;
+  width: 14%;
 }
 
 #garage-table__id tr th:nth-child(5){
-  width: 12%;
+  width: 14%;
+}
+
+#garage-table__id tr th:nth-child(6){
+  width: 14%;
 }
 
 

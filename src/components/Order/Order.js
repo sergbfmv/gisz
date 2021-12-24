@@ -346,21 +346,18 @@ class DetailForm extends React.Component {
                     onChange={this.changeName}
                 />
                 <div>
-                    <input
-                        className="form-select form-select__garage form-select__order"
-                        placeholder='Введите тип'
-                        type='text'
-                        name={`type_${this.state.index}`}
-                        onChange={this.changeType}
-                        value={this.state.type}/>
-                    <input
-                        className="form-select form-select__garage form-select__order"
-                        placeholder='Введите состояние'
-                        type='text'
-                        name={`state_${this.state.index}`}
-                        value={this.state.state}
-                        onChange={this.changeState}
-                    />
+                <select className="form-select form-select__garage form-select__order" aria-label="Default select example" onChange={this.changeType} id="select">
+                    <option selected value={'value'}>Тип детали</option>
+                    <option value={this.state.type} name={`state_${this.state.index}`}>Дешёвая стоимость</option>
+                    <option value={this.state.type} name={`state_${this.state.index}`}>Качественный аналог</option>
+                    <option value={this.state.type} name={`state_${this.state.index}`}>Оригинал</option>
+                </select>
+                <select className="form-select form-select__garage form-select__order" aria-label="Default select example" onChange={this.changeState} id="select">
+                    <option selected value={'value'}>Тип детали</option>
+                    <option value={this.state.state} name={`state_${this.state.index}`}>Новая</option>
+                    <option value={this.state.state} name={`state_${this.state.index}`}>Б/у</option>
+                    <option value={this.state.state} name={`state_${this.state.index}`}>Любая</option>
+                </select>
                 </div>
             </div>
         )

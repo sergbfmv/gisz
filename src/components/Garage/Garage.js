@@ -1,7 +1,7 @@
 import "./Garage.css"
 import repeatbtn from "../../images/repeat-btn.png"
 import copybtn from "../../images/copy-btn.png"
-import {Link} from "react-router-dom"
+import {Link, useParams} from "react-router-dom"
 import React from "react";
 import {AsyncTypeahead} from 'react-bootstrap-typeahead'; // http://ericgio.github.io/react-bootstrap-typeahead/
 import axios from 'axios'
@@ -13,6 +13,7 @@ class Garage extends React.Component {
         this.state = {
             brands: [],
             models: [],
+            selectedStatus: null,
             selectedYear: null,
             selectedBrand: null,
             selectedModel: null,
@@ -26,6 +27,7 @@ class Garage extends React.Component {
         this.selectModel = this.selectModel.bind(this);
         this.getOrders = this.getOrders.bind(this)
         this.selectYear = this.selectYear.bind(this)
+        this.selectStatus = this.selectStatus.bind(this)
     }
 
     searchBrands(input) {
@@ -74,11 +76,19 @@ class Garage extends React.Component {
     })
   }
 
+  selectStatus(e) {
+    this.setState({
+      selectedStatus: e.target.value
+    })
+}
+
+
   getOrders() {
     let query = {
       brand: this.state.selectedBrand ? this.state.selectedBrand.name : "",
       model: this.state.selectedModel ? this.state.selectedModel.name : "",
-      year: this.state.selectedYear ? this.state.selectedYear : ""
+      year: this.state.selectedYear ? this.state.selectedYear : "",
+      status: this.state.selectedStatus ? this.state.selectedStatus : ""
     };
   
     axios.get("http://apelio.khonik.online/api/orders?" + new URLSearchParams(query).toString(), {
@@ -133,7 +143,19 @@ class Garage extends React.Component {
                                   onChange={this.selectBrand}
                                 />
                                 {model}
-            <input className="rbt-input rbt-input-main form-control form-control__garage"  placeholder="Год выпуска" maxLength='4' onChange={this.selectYear}></input>
+                                <input className="rbt-input rbt-input-main form-control form-control__garage"  placeholder="Год выпуска" maxLength='4' onChange={this.selectYear}></input>
+          
+
+                                <select className="rbt-input rbt-input-main form-control form-control__garage" aria-label="Default select example" onChange={this.selectStatus} id="select">
+                                    <option selected value={'value'}>Состояние заказов</option>
+                                    <option value="0">Новый заказ</option>
+                                    <option value="1">Заказ в обработке</option>
+                                    <option value="2">Ожидает товара</option>
+                                    <option value="3">В доставке</option>
+                                    <option value="4">Доставлено</option>
+                                    <option value="5">В архиве</option>
+                                </select>
+
                               <button type="button" className="btn btn-primary btn-primary__garage" onClick={this.getOrders}>Применить</button>
                             </div>
                         </form>
@@ -147,6 +169,7 @@ class Garage extends React.Component {
                                 <th scope="col" className="garage-table__title">Марка</th>
                                 <th scope="col" className="garage-table__title">Год</th>
                                 <th scope="col" className="garage-table__title">VIN (FRAME)</th>
+                                <th scope="col" className="garage-table__title">Состояние заказа</th>
                                 <th scope="col" className="garage-table__title">Комплектация</th>
                             </tr>
                             </thead>
@@ -167,31 +190,40 @@ class Garage extends React.Component {
     }
 }
 
-class OrderItem extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      order: props.order
-    }
+function OrderItem(props) {
+
+  let {orderId} = useParams()
+  console.log(orderId)
+
+  function archiveStatus() {
+    axios.post("http://apelio.khonik.online/api/orders/" + orderId + "/status", {
+      status: "5"
+  })
+    .then((res) => {
+      console.log("Статус изменен!")
+    })
   }
 
-  render() {
+  React.useEffect(() => {
+    archiveStatus()
+  })
+
+
     return(
       <tr>
-        <td>{this.state.order.id}</td>
+        <td>{props.order.id}</td>
         <td>
-            <button type="button" className="garage-table__repeat-button"><img src={repeatbtn} alt=""></img></button>
+            <button type="button" className="garage-table__repeat-button"><img src={repeatbtn} alt="" onClick={archiveStatus}></img></button>
             <button type="button" className="garage-table__copy-button"><img src={copybtn} alt=""></img></button>
         </td>
-        <td><Link to={`/garage/${this.state.order.id}`} className="garage-link">{this.state.order.brand} {this.state.order.model}</Link></td>
-        <td>{this.state.order.year}</td>
-        <td>{this.state.order.vin}</td>
+        <td><Link to={`/garage/${props.order.id}`} className="garage-link">{props.order.brand} {props.order.model}</Link></td>
+        <td>{props.order.year}</td>
+        <td>{props.order.vin}</td>
+        <td>{props.order.status}</td>
         <td></td>
       </tr>
-
     )
   }
-}
 
 /*function Garage() {
   return (
