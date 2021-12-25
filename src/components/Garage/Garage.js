@@ -195,7 +195,7 @@ function OrderItem(props) {
   function archiveStatus(e) {
     
     axios.post("http://apelio.khonik.online/api/orders/" + props.order.id + "/status", {
-      status: "5"
+      status: "0"
   })
     .then((res) => {
       console.log("Статус изменен!")
@@ -209,8 +209,8 @@ function OrderItem(props) {
       <tr>
         <td>{props.order.id}</td>
         <td>
-            <button type="button" className="garage-table__repeat-button" onClick={archiveStatus}><img src={repeatbtn} alt=""></img></button>
-            <button type="button" className="garage-table__copy-button"><img src={copybtn} alt=""></img></button>
+            <button type="button" className="garage-table__repeat-button"><img src={repeatbtn} alt=""></img></button>
+            <button type="button" className="garage-table__copy-button" onClick={archiveStatus}><img src={copybtn} alt=""></img></button>
         </td>
         <td><Link to={`/garage/${props.order.id}`} className="garage-link">{props.order.brand} {props.order.model}</Link></td>
         <td>{props.order.year}</td>
