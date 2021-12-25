@@ -192,25 +192,24 @@ class Garage extends React.Component {
 
 function OrderItem(props) {
 
-  function archiveStatus() {
+  function archiveStatus(e) {
+    
     axios.post("http://apelio.khonik.online/api/orders/" + props.order.id + "/status", {
-      status: "0"
+      status: "5"
   })
     .then((res) => {
       console.log("Статус изменен!")
     })
   }
   
-  React.useEffect(() => {
-    archiveStatus()
-  })
+ 
   
 
     return(
       <tr>
         <td>{props.order.id}</td>
         <td>
-            <button type="button" className="garage-table__repeat-button"><img src={repeatbtn} alt="" onClick={archiveStatus}></img></button>
+            <button type="button" className="garage-table__repeat-button" onClick={console.log("sdf")}><img src={repeatbtn} alt=""></img></button>
             <button type="button" className="garage-table__copy-button"><img src={copybtn} alt=""></img></button>
         </td>
         <td><Link to={`/garage/${props.order.id}`} className="garage-link">{props.order.brand} {props.order.model}</Link></td>
