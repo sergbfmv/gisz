@@ -209,7 +209,7 @@ function OrderItem(props) {
       <tr>
         <td>{props.order.id}</td>
         <td>
-            <button type="button" className="garage-table__repeat-button" onClick={console.log("sdf")}><img src={repeatbtn} alt=""></img></button>
+            <button type="button" className="garage-table__repeat-button" onClick={archiveStatus}><img src={repeatbtn} alt=""></img></button>
             <button type="button" className="garage-table__copy-button"><img src={copybtn} alt=""></img></button>
         </td>
         <td><Link to={`/garage/${props.order.id}`} className="garage-link">{props.order.brand} {props.order.model}</Link></td>
