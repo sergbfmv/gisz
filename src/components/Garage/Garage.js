@@ -1,7 +1,7 @@
 import "./Garage.css"
 import repeatbtn from "../../images/repeat-btn.png"
 import copybtn from "../../images/copy-btn.png"
-import {Link} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 import React from "react";
 import {AsyncTypeahead} from 'react-bootstrap-typeahead'; // http://ericgio.github.io/react-bootstrap-typeahead/
 import axios from 'axios'
@@ -191,25 +191,26 @@ class Garage extends React.Component {
 }
 
 function OrderItem(props) {
+  const history = useNavigate()
+  const redirect = path => {
+    history(path)
+  }
 
   function archiveStatus(e) {
     
     axios.post("http://apelio.khonik.online/api/orders/" + props.order.id + "/status", {
-      status: "0"
+      status: "5"
   })
     .then((res) => {
       console.log("Статус изменен!")
     })
   }
   
- 
-  
-
     return(
       <tr>
         <td>{props.order.id}</td>
         <td>
-            <button type="button" className="garage-table__repeat-button"><img src={repeatbtn} alt=""></img></button>
+            <button type="button" className="garage-table__repeat-button" onClick={() => redirect("/order?copy_order=" + props.order.id)}><img src={repeatbtn} alt=""></img></button>
             <button type="button" className="garage-table__copy-button" onClick={archiveStatus}><img src={copybtn} alt=""></img></button>
         </td>
         <td><Link to={`/garage/${props.order.id}`} className="garage-link">{props.order.brand} {props.order.model}</Link></td>

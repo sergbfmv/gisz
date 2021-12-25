@@ -171,6 +171,21 @@ class Order extends React.Component {
         })
     }
 
+    getOrder() {
+        if (document.referrer === `/order?copy_order=`) {
+            axios.get(`http://apelio.khonik.online/api/orders/${this.order.id}`, {
+                marka_id: this.brand
+            })
+            .then((res) => {
+                
+            })
+        }
+    }
+
+    componentDidMount() {
+        this.getOrder()
+    }
+
     render() {
         let typesList = this.state.carTypes.map((type) => <option value={type.key}>{type.value}</option>)
         let model;
