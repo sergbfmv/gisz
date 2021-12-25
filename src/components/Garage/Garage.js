@@ -194,20 +194,23 @@ function OrderItem(props) {
 
   function archiveStatus() {
     axios.post("http://apelio.khonik.online/api/orders/" + props.order.id + "/status", {
-      status: "5"
+      status: "0"
   })
     .then((res) => {
       console.log("Статус изменен!")
     })
   }
   
+  React.useEffect(() => {
+    archiveStatus()
+  })
   
 
     return(
       <tr>
         <td>{props.order.id}</td>
         <td>
-            <button type="button" className="garage-table__repeat-button"><img src={repeatbtn} alt="" onClick={archiveStatus()}></img></button>
+            <button type="button" className="garage-table__repeat-button"><img src={repeatbtn} alt="" onClick={archiveStatus}></img></button>
             <button type="button" className="garage-table__copy-button"><img src={copybtn} alt=""></img></button>
         </td>
         <td><Link to={`/garage/${props.order.id}`} className="garage-link">{props.order.brand} {props.order.model}</Link></td>
