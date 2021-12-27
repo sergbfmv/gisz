@@ -51,81 +51,81 @@ class Garage extends React.Component {
     }
 
     searchModels(input) {
-      this.setState({
-          isLoading: true,
-      })
-      axios.get("http://apelio.khonik.online/api/model?marka_id=" + this.state.selectedBrand.marka_id + "&name=" + input).then(r => {
-          this.setState({
-              isLoading: false,
-              models: r.data.models,
-          })
-      })
+        this.setState({
+            isLoading: true,
+        })
+        axios.get("http://apelio.khonik.online/api/model?marka_id=" + this.state.selectedBrand.marka_id + "&name=" + input).then(r => {
+            this.setState({
+                isLoading: false,
+                models: r.data.models,
+            })
+        })
     }
 
     selectModel(selectedData) {
-      if (selectedData.length > 0) {
-          this.setState({
-              selectedModel: selectedData[0],
-          })
-      }
-  }
-
-  selectYear(e) {
-    this.setState({
-      selectedYear: e.target.value
-    })
-  }
-
-  selectStatus(e) {
-    this.setState({
-      selectedStatus: e.target.value
-    })
-}
-
-
-  getOrders() {
-    let query = {
-      brand: this.state.selectedBrand ? this.state.selectedBrand.name : "",
-      model: this.state.selectedModel ? this.state.selectedModel.name : "",
-      year: this.state.selectedYear ? this.state.selectedYear : "",
-      status: this.state.selectedStatus ? this.state.selectedStatus : ""
-    };
-  
-    axios.get("http://apelio.khonik.online/api/orders?" + new URLSearchParams(query).toString(), {
-      headers: {
-        ApiToken: localStorage.getItem('api_token')
+        if (selectedData.length > 0) {
+            this.setState({
+                selectedModel: selectedData[0],
+            })
+        }
     }
-  })
-  .then((res) => {
-    let orders = res.data.orders
-    if (orders) {
-      this.setState({
-       orders: orders
-     })
-    }
-  })
-}
 
-  componentDidMount() {
-    this.getOrders()
-  }
+    selectYear(e) {
+        this.setState({
+            selectedYear: e.target.value
+        })
+    }
+
+    selectStatus(e) {
+        this.setState({
+            selectedStatus: e.target.value
+        })
+    }
+
+
+    getOrders() {
+        let query = {
+            brand: this.state.selectedBrand ? this.state.selectedBrand.name : "",
+            model: this.state.selectedModel ? this.state.selectedModel.name : "",
+            year: this.state.selectedYear ? this.state.selectedYear : "",
+            status: this.state.selectedStatus ? this.state.selectedStatus : ""
+        };
+
+        axios.get("http://apelio.khonik.online/api/orders?" + new URLSearchParams(query).toString(), {
+            headers: {
+                ApiToken: localStorage.getItem('api_token')
+            }
+        })
+            .then((res) => {
+                let orders = res.data.orders
+                if (orders) {
+                    this.setState({
+                        orders: orders
+                    })
+                }
+            })
+    }
+
+    componentDidMount() {
+        this.getOrders()
+    }
 
     render() {
-      let model;
-      if (this.state.selectedBrand === null) {
-        model = <AsyncTypeahead placeholder="Модель" disabled />
-      } else {
-        model = <AsyncTypeahead
-        id="model-search"
-        isLoading={this.state.isLoading}
-        labelKey="name"
-        minLength={1}
-        onSearch={this.searchModels}
-        options={this.state.models}
-        placeholder="Модель"
-        onChange={this.selectModel}
-      />
-      }
+        let model;
+        if (this.state.selectedBrand === null) {
+            model = <AsyncTypeahead placeholder="Модель" disabled/>
+        } else {
+            model = <AsyncTypeahead
+                id="model-search"
+                isLoading={this.state.isLoading}
+                labelKey="name"
+                minLength={1}
+                onSearch={this.searchModels}
+                options={this.state.models}
+                placeholder="Модель"
+                onChange={this.selectModel}
+            />
+        }
         return (
             <div className="container container__garage">
                 <div className="row">
@@ -133,21 +133,23 @@ class Garage extends React.Component {
                         <form className="garage__form">
                             <div className="mb-3 mb-3__garage">
                                 <AsyncTypeahead
-                                  id="brand-search"
-                                  isLoading={this.state.isLoading}
-                                  labelKey="name"
-                                  minLength={1}
-                                  onSearch={this.searchBrands}
-                                  options={this.state.brands}
-                                  placeholder="Марка"
-                                  onChange={this.selectBrand}
+                                    id="brand-search"
+                                    isLoading={this.state.isLoading}
+                                    labelKey="name"
+                                    minLength={1}
+                                    onSearch={this.searchBrands}
+                                    options={this.state.brands}
+                                    placeholder="Марка"
+                                    onChange={this.selectBrand}
                                 />
                                 {model}
-                                <input className="rbt-input rbt-input-main form-control form-control__garage"  placeholder="Год выпуска" maxLength='4' onChange={this.selectYear}></input>
-          
+                                <input className="rbt-input rbt-input-main form-control form-control__garage"
+                                       placeholder="Год выпуска" maxLength='4' onChange={this.selectYear}></input>
 
-                                <select className="rbt-input rbt-input-main form-control form-control__garage" aria-label="Default select example" onChange={this.selectStatus} id="select">
-                                    <option selected value={'value'}>Состояние заказов</option>
+
+                                <select className="rbt-input rbt-input-main form-control form-control__garage"
+                                        aria-label="Default select example" onChange={this.selectStatus} id="select">
+                                    <option selected value="">Все</option>
                                     <option value="0">Новый заказ</option>
                                     <option value="1">Заказ в обработке</option>
                                     <option value="2">Ожидает товара</option>
@@ -156,7 +158,9 @@ class Garage extends React.Component {
                                     <option value="5">В архиве</option>
                                 </select>
 
-                              <button type="button" className="btn btn-primary btn-primary__garage" onClick={this.getOrders}>Применить</button>
+                                <button type="button" className="btn btn-primary btn-primary__garage"
+                                        onClick={this.getOrders}>Применить
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -174,10 +178,10 @@ class Garage extends React.Component {
                             </tr>
                             </thead>
                             <tbody>
-                          {this.state.orders.map(order => 
-                            <OrderItem key={order.id} order={order} />
-                          )
-                        }
+                            {this.state.orders.map(order =>
+                                <OrderItem onArchive={this.getOrders} key={order.id} order={order}/>
+                            )
+                            }
                             </tbody>
                         </table>
                     </div>
@@ -191,36 +195,49 @@ class Garage extends React.Component {
 }
 
 function OrderItem(props) {
-  const history = useNavigate()
-  const redirect = path => {
-    history(path)
-  }
+    const history = useNavigate()
+    const redirect = path => {
+        history(path)
+    }
 
-  function archiveStatus(e) {
-    
-    axios.post("http://apelio.khonik.online/api/orders/" + props.order.id + "/status", {
-      status: "5"
-  })
-    .then((res) => {
-      console.log("Статус изменен!")
-    })
-  }
-  
-    return(
-      <tr>
-        <td>{props.order.id}</td>
-        <td>
-            <button type="button" className="garage-table__repeat-button" onClick={() => redirect("/order?copy_order=" + props.order.id)}><img src={repeatbtn} alt=""></img></button>
-            <button type="button" className="garage-table__copy-button" onClick={archiveStatus}><img src={copybtn} alt=""></img></button>
-        </td>
-        <td><Link to={`/garage/${props.order.id}`} className="garage-link">{props.order.brand} {props.order.model}</Link></td>
-        <td>{props.order.year}</td>
-        <td>{props.order.vin}</td>
-        <td>{props.order.status}</td>
-        <td></td>
-      </tr>
+    const statusesMap = {
+        0: "Новый",
+        1: "",
+        2: "",
+        5: "В архиве"
+    }
+
+    function archiveStatus(e) {
+
+        axios.post("http://apelio.khonik.online/api/orders/" + props.order.id + "/status", {
+            status: "5"
+        })
+            .then((res) => {
+                console.log("Статус изменен!");
+                props.onArchive()
+            })
+    }
+
+    return (
+        <tr>
+            <td>{props.order.id}</td>
+            <td>
+                <button type="button" className="garage-table__repeat-button"
+                        onClick={() => redirect("/order?copy_order=" + props.order.id)}><img src={repeatbtn}
+                                                                                             alt=""></img></button>
+                <button type="button" className="garage-table__copy-button" onClick={archiveStatus}><img src={copybtn}
+                                                                                                         alt=""></img>
+                </button>
+            </td>
+            <td><Link to={`/garage/${props.order.id}`}
+                      className="garage-link">{props.order.brand} {props.order.model}</Link></td>
+            <td>{props.order.year}</td>
+            <td>{props.order.vin}</td>
+            <td>{statusesMap[props.order.status]}</td>
+            <td></td>
+        </tr>
     )
-  }
+}
 
 /*function Garage() {
 

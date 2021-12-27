@@ -64,6 +64,7 @@ class Order extends React.Component {
 
     selectBrand(selectedData) {
         if (selectedData.length > 0) {
+            console.log(selectedData[0]);
             this.setState({
                 selectedBrand: selectedData[0],
             })
@@ -111,14 +112,15 @@ class Order extends React.Component {
     }
 
     submitOrder() {
-        axios.post(`http://apelio.khonik.online/api/orders`, {
+        const body = {
             marka_id: this.state.selectedBrand.marka_id,
             model_id: this.state.selectedModel.model_id,
             year: this.state.selectedYear,
             vin: this.state.selectedVIN,
             city_id: this.state.selectedCity.id,
             address: this.state.selectedAddress
-        }, {
+        };
+        axios.post(`http://apelio.khonik.online/api/orders`, body, {
             headers: {
                 ApiToken: localStorage.getItem('api_token')
             }
@@ -173,16 +175,28 @@ class Order extends React.Component {
     }
 
     getOrder() {
-        if (document.referrer === `/order?copy_order=`) {
-            axios.get(`http://apelio.khonik.online/api/orders/${this.order.id}`)
-            .then(res => {
-  
+        const searchString = window.location.search;
+        const searchParams = new URLSearchParams(searchString);
+        const orderId = searchParams.get('copy_order');
+        if (parseInt(orderId)) {
+            axios.get(`http://apelio.khonik.online/api/orders/${orderId}`)
+                .then(res => {
+                    this.setState({
+                        selectedBrand: {
+                            marka_id: res.data.order.marka_id,
+                            name: res.data.order.brand
+                        },
+                        selectedMarka: {
 
+                        },
+                        selectedCity: {
 
+                        },
+                        selectedVIN:res.data.order.vin
+                    })
 
-
-                
-            })
+                    //document.querySelector(".brand-search input").value=res.data.order.brand;
+                })
         }
     }
 
@@ -191,7 +205,7 @@ class Order extends React.Component {
     }
 
     render() {
-        let typesList = this.state.carTypes.map((type) => <option value={type.key}>{type.value}</option>)
+        let typesList = this.state.carTypes.map((type) => <option key={type.key} value={type.key}>{type.value}</option>)
         let model;
         if (this.state.selectedBrand === null) {
             model = <AsyncTypeahead placeholder="Модель" disabled/>
@@ -231,7 +245,7 @@ class Order extends React.Component {
                                     {typesList}
                                 </select>
                                 <AsyncTypeahead
-                                    id="search brand-search"
+                                    id="brand-search"
                                     isLoading={this.state.isLoading}
                                     labelKey="name"
                                     minLength={1}
@@ -239,6 +253,9 @@ class Order extends React.Component {
                                     options={this.state.brands}
                                     placeholder="Марка *"
                                     onChange={this.selectBrand}
+                                    className="brand-search"
+                               //     defaultInputValue={this.state.selectedBrand?.name || ''}
+                                  //  selected={[this.state.selectedBrand]} // object
                                 />
                                 {model}
                                 <input className="form-select form-select__garage form-select__order"
@@ -250,7 +267,7 @@ class Order extends React.Component {
                                 <input
                                     className="form-select form-select__garage form-select__order form-select__order_vin"
                                     placeholder="Vin *" maxLength='17'
-
+                                    value={this.state.selectedVIN}
                                     onChange={e => this.setState({selectedVIN: e.target.value})}
                                 >
                                 </input>
@@ -365,18 +382,20 @@ class DetailForm extends React.Component {
                     onChange={this.changeName}
                 />
                 <div>
-                <select className="form-select form-select__garage form-select__order" aria-label="Default select example" onChange={this.changeType} id="select">
-                    <option selected value={'value'}>Тип детали</option>
-                    <option value={this.state.type} name={`state_${this.state.index}`}>Дешёвая стоимость</option>
-                    <option value={this.state.type} name={`state_${this.state.index}`}>Качественный аналог</option>
-                    <option value={this.state.type} name={`state_${this.state.index}`}>Оригинал</option>
-                </select>
-                <select className="form-select form-select__garage form-select__order" aria-label="Default select example" onChange={this.changeState} id="select">
-                    <option selected value={'value'}>Тип детали</option>
-                    <option value={this.state.state} name={`state_${this.state.index}`}>Новая</option>
-                    <option value={this.state.state} name={`state_${this.state.index}`}>Б/у</option>
-                    <option value={this.state.state} name={`state_${this.state.index}`}>Любая</option>
-                </select>
+                    <select className="form-select form-select__garage form-select__order"
+                            aria-label="Default select example" onChange={this.changeType} id="select">
+                        <option selected value={'value'}>Тип детали</option>
+                        <option value={this.state.type} name={`state_${this.state.index}`}>Дешёвая стоимость</option>
+                        <option value={this.state.type} name={`state_${this.state.index}`}>Качественный аналог</option>
+                        <option value={this.state.type} name={`state_${this.state.index}`}>Оригинал</option>
+                    </select>
+                    <select className="form-select form-select__garage form-select__order"
+                            aria-label="Default select example" onChange={this.changeState} id="select">
+                        <option selected value={'value'}>Тип детали</option>
+                        <option value={this.state.state} name={`state_${this.state.index}`}>Новая</option>
+                        <option value={this.state.state} name={`state_${this.state.index}`}>Б/у</option>
+                        <option value={this.state.state} name={`state_${this.state.index}`}>Любая</option>
+                    </select>
                 </div>
             </div>
         )
