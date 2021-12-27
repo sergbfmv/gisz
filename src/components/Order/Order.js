@@ -41,6 +41,7 @@ class Order extends React.Component {
         this.goBack = this.goBack.bind(this)
         this.addDetail = this.addDetail.bind(this)
         this.detailUpdated = this.detailUpdated.bind(this)
+        this.getOrder = this.getOrder.bind(this)
     }
 
     selectCarType(e) {
@@ -173,10 +174,13 @@ class Order extends React.Component {
 
     getOrder() {
         if (document.referrer === `/order?copy_order=`) {
-            axios.get(`http://apelio.khonik.online/api/orders/${this.order.id}`, {
-                marka_id: this.brand
-            })
-            .then((res) => {
+            axios.get(`http://apelio.khonik.online/api/orders/${this.order.id}`)
+            .then(res => {
+  
+
+
+
+
                 
             })
         }
