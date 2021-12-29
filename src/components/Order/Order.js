@@ -2,6 +2,7 @@ import "./Order.css"
 import {AsyncTypeahead} from 'react-bootstrap-typeahead';
 import React from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 class Order extends React.Component {
     constructor(props) {
@@ -186,13 +187,13 @@ class Order extends React.Component {
                             marka_id: res.data.order.marka_id,
                             name: res.data.order.brand
                         },
-                        selectedMarka: {
+                        selectedModel: {
 
                         },
-                        selectedCity: {
-
-                        },
-                        selectedVIN:res.data.order.vin
+                        selectedYear: res.data.order.year,
+                        selectedVIN:res.data.order.vin,
+                        selectCity: {},
+                        selectedAddress: res.data.order.address
                     })
 
                     //document.querySelector(".brand-search input").value=res.data.order.brand;
@@ -262,6 +263,7 @@ class Order extends React.Component {
                                        placeholder="Год выпуска *"
                                        maxLength='4'
                                        onChange={e => this.setState({selectedYear: e.target.value})}
+                                       value={this.state.selectedYear}
                                 >
                                 </input>
                                 <input
@@ -271,9 +273,9 @@ class Order extends React.Component {
                                     onChange={e => this.setState({selectedVIN: e.target.value})}
                                 >
                                 </input>
-                                <div className="drop-zone">
+                               {/*<div className="drop-zone">
 
-                                </div>
+        </div>*/}
                                 <div className="mb-3 mb-3__about">
                                     <AsyncTypeahead
                                         id="city-search"
@@ -290,6 +292,7 @@ class Order extends React.Component {
                                     <input type="text" placeholder="Адрес доставки *" className="form-input__order"
                                            required
                                            onChange={e => this.setState({selectedAddress: e.target.value})}
+                                           value={this.state.selectedAddress}
                                     />
                                 </div>
                                 <div className="mb-3 mb-3__about">
@@ -313,7 +316,7 @@ class Order extends React.Component {
                                 >
                                     Отправить
                                 </button>
-                                <button type="button" className="btn-cancel" onClick={this.goBack}>Отмена</button>
+                                <BackButton/>
                             </div>
                         </form>
                     </div>
@@ -321,6 +324,16 @@ class Order extends React.Component {
             </div>
         )
     }
+}
+
+function BackButton() {
+    const history = useNavigate()
+    const redirect = path => {
+        history(path)
+    }
+    return (
+        <button type="button" className="btn-cancel" onClick={() => redirect("/")}>Отмена</button>
+    )
 }
 
 class DetailForm extends React.Component {
