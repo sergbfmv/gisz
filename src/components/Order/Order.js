@@ -134,7 +134,7 @@ class Order extends React.Component {
             }
         }).then(response => {
             let order = response.data.data;
-            if(response.data.errors_count===0){
+            if (response.data.errors_count === 0) {
                 alert(response.data.msg);
             } else {
                 alert("Поля заполнены некорректно")
@@ -176,15 +176,22 @@ class Order extends React.Component {
         if (parseInt(orderId)) {
             axios.get(`http://apelio.khonik.online/api/orders/${orderId}`)
                 .then(res => {
+                    const city = res.data.order.city;
                     this.setState({
                         selectedBrand: {
                             marka_id: res.data.order.marka_id,
                             name: res.data.order.brand
                         },
-                        selectedModel: {},
+                        selectedModel: {
+                            model_id: res.data.order.model_id,
+                            name: res.data.order.model
+                        },
                         selectedYear: res.data.order.year,
                         selectedVIN: res.data.order.vin,
-                        selectCity: {},
+                        selectedCity: {
+                            id:city?.id,
+                            name:city?.name
+                        },
                         selectedAddress: res.data.order.address
                     })
                 })
@@ -197,22 +204,6 @@ class Order extends React.Component {
 
     render() {
         let typesList = this.state.carTypes.map((type) => <option key={type.key} value={type.key}>{type.value}</option>)
-        let model;
-        if (this.state.selectedBrand === null) {
-            model = <AsyncTypeahead placeholder="Модель" disabled/>
-        } else {
-            model = <AsyncTypeahead
-                id="model-search"
-                isLoading={this.state.isLoading}
-                labelKey="name"
-                minLength={1}
-                onSearch={this.searchModels}
-                options={this.state.models}
-                placeholder="Модель"
-                onChange={this.selectModel}
-            />
-        }
-
         return (
             <div className="container container__order">
                 <div className="row">
@@ -242,11 +233,23 @@ class Order extends React.Component {
                                     minLength={1}
                                     onSearch={this.searchBrands}
                                     options={this.state.brands}
+                                    selected={this.state.selectedBrand ? [this.state.selectedBrand] : []}
                                     placeholder="Марка *"
                                     onChange={this.selectBrand}
                                     className="brand-search"
                                 />
-                                {model}
+                                <AsyncTypeahead
+                                    id="model-search"
+                                    isLoading={this.state.isLoading}
+                                    labelKey="name"
+                                    minLength={1}
+                                    onSearch={this.searchModels}
+                                    options={this.state.models}
+                                    selected={this.state.selectedModel ? [this.state.selectedModel] : []}
+                                    placeholder="Модель"
+                                    onChange={this.selectModel}
+                                    disabled={this.state.selectedBrand === null}
+                                />
                                 <input className="form-select form-select__garage form-select__order"
                                        placeholder="Год выпуска *"
                                        maxLength='4'
@@ -272,6 +275,7 @@ class Order extends React.Component {
                                         minLength={1}
                                         onSearch={this.searchCities}
                                         options={this.state.cities}
+                                        selected={this.state.selectedCity ? [this.state.selectedCity] : []}
                                         placeholder='Город *'
                                         onChange={this.selectCity}
                                     />
