@@ -12,6 +12,7 @@ import Offers from '../Offers/Offers';
 import Order from '../Order/Order';
 import RegisterPopup from '../RegisterPopup/RegisterPopup';
 import PrivateWrapper from '../PrivateWrapper/PrivatWrapper';
+import PageNotFound from '../PNF/PNF';
 
 
 class App extends React.Component {
@@ -66,6 +67,7 @@ class App extends React.Component {
                         <Route path="/offers/:orderId" element={<Offers/>}/>
                         <Route path="/order" element={<Order/>}/>
                       </Route>
+                      <Route path="*" element={<PageNotFound />} />
                     </Routes>
                     <Footer/>
                     {popup}
