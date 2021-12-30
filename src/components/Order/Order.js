@@ -2,7 +2,7 @@ import "./Order.css"
 import {AsyncTypeahead} from 'react-bootstrap-typeahead';
 import React from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 class Order extends React.Component {
     constructor(props) {
@@ -114,12 +114,19 @@ class Order extends React.Component {
 
     submitOrder() {
         const body = {
-            marka_id: this.state.selectedBrand.marka_id,
-            model_id: this.state.selectedModel.model_id,
+            marka_id: this.state.selectedBrand?.marka_id,
+            model_id: this.state.selectedModel?.model_id,
             year: this.state.selectedYear,
             vin: this.state.selectedVIN,
-            city_id: this.state.selectedCity.id,
-            address: this.state.selectedAddress
+            city_id: this.state.selectedCity?.id,
+            address: this.state.selectedAddress,
+            details: this.state.details?.map(detail => {
+                return {
+                    name: detail.name,
+                    type: detail.type,
+                    state: detail.state
+                }
+            })
         };
         axios.post(`http://apelio.khonik.online/api/orders`, body, {
             headers: {
@@ -127,24 +134,11 @@ class Order extends React.Component {
             }
         }).then(response => {
             let order = response.data.data;
-            // order.id -> ID заказа, нужное для прикрепления деталей к заказу
-            this.state.details.forEach(detail => {
-                this.attachDetailToOrder(order.id, detail)
-            })
-        })
-    }
-
-    attachDetailToOrder(order_id, detail) {
-        axios.post(`http://apelio.khonik.online/api/details`, {
-            order_id: order_id,
-            name: detail.name,
-            type: detail.type,
-            state: detail.state
-        }, {
-            headers: {
-                ApiToken: localStorage.getItem('api_token')
+            if(response.data.errors_count===0){
+                alert(response.data.msg);
+            } else {
+                alert("Поля заполнены некорректно")
             }
-        }).then(response => {
 
         })
     }
@@ -187,16 +181,12 @@ class Order extends React.Component {
                             marka_id: res.data.order.marka_id,
                             name: res.data.order.brand
                         },
-                        selectedModel: {
-
-                        },
+                        selectedModel: {},
                         selectedYear: res.data.order.year,
-                        selectedVIN:res.data.order.vin,
+                        selectedVIN: res.data.order.vin,
                         selectCity: {},
                         selectedAddress: res.data.order.address
                     })
-
-                    //document.querySelector(".brand-search input").value=res.data.order.brand;
                 })
         }
     }
@@ -255,8 +245,6 @@ class Order extends React.Component {
                                     placeholder="Марка *"
                                     onChange={this.selectBrand}
                                     className="brand-search"
-                               //     defaultInputValue={this.state.selectedBrand?.name || ''}
-                                  //  selected={[this.state.selectedBrand]} // object
                                 />
                                 {model}
                                 <input className="form-select form-select__garage form-select__order"
@@ -273,7 +261,7 @@ class Order extends React.Component {
                                     onChange={e => this.setState({selectedVIN: e.target.value})}
                                 >
                                 </input>
-                               {/*<div className="drop-zone">
+                                {/*<div className="drop-zone">
 
         </div>*/}
                                 <div className="mb-3 mb-3__about">
@@ -295,9 +283,9 @@ class Order extends React.Component {
                                            value={this.state.selectedAddress}
                                     />
                                 </div>
-                                <div className="mb-3 mb-3__about">
+                                {/*<div className="mb-3 mb-3__about">
                                     <input type="text" placeholder="Офис *" className="form-input__order" required/>
-                                </div>
+                                </div>*/}
 
                                 {this.state.details.map((detail, index) => <DetailForm name={detail.name}
                                                                                        type={detail.type}
@@ -352,26 +340,33 @@ class DetailForm extends React.Component {
     }
 
     changeName(e) {
-        this.setState({
-            name: e.target.value
-        })
+        const name = e.target.value;
+        setTimeout(() => {
+            this.setState({
+                name: name
+            })
 
-        this.detailChanged()
+            this.detailChanged()
+        }, 0)
     }
 
     changeType(e) {
-        this.setState({
-            type: e.target.value
-        })
+        setTimeout(() => {
+            this.setState({
+                type: e.target.value
+            })
 
-        this.detailChanged()
+            this.detailChanged()
+        }, 0)
     }
 
     changeState(e) {
-        this.setState({
-            state: e.target.value
-        })
-        this.detailChanged()
+        setTimeout(() => {
+            this.setState({
+                state: e.target.value
+            })
+            this.detailChanged()
+        }, 0)
     }
 
     detailChanged() {
@@ -395,19 +390,20 @@ class DetailForm extends React.Component {
                     onChange={this.changeName}
                 />
                 <div>
-                    <select className="form-select form-select__garage form-select__order"
-                            aria-label="Default select example" onChange={this.changeType} id="select">
-                        <option selected value={'value'}>Тип детали</option>
-                        <option value={this.state.type} name={`state_${this.state.index}`}>Дешёвая стоимость</option>
-                        <option value={this.state.type} name={`state_${this.state.index}`}>Качественный аналог</option>
-                        <option value={this.state.type} name={`state_${this.state.index}`}>Оригинал</option>
+                    <select className="form-select form-select__garage form-select__order" name="type"
+                            aria-label="Default select example" onChange={this.changeType} id="select-type">
+                        <option selected value="">Тип детали</option>
+                        <option value="cheap">Дешёвая аналог</option>
+                        <option value="quality">Качественный аналог</option>
+                        <option value="original">Оригинал</option>
                     </select>
-                    <select className="form-select form-select__garage form-select__order"
-                            aria-label="Default select example" onChange={this.changeState} id="select">
-                        <option selected value={'value'}>Тип детали</option>
-                        <option value={this.state.state} name={`state_${this.state.index}`}>Новая</option>
-                        <option value={this.state.state} name={`state_${this.state.index}`}>Б/у</option>
-                        <option value={this.state.state} name={`state_${this.state.index}`}>Любая</option>
+                    <select className="form-select form-select__garage form-select__order" name="state"
+                            onChange={this.changeState}
+                            aria-label="Default select example" id="select-state">
+                        <option selected value="">Тип детали</option>
+                        <option value="new">Новая</option>
+                        <option value="used">Б/у</option>
+                        <option value="any">Любая</option>
                     </select>
                 </div>
             </div>
