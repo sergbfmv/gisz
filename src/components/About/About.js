@@ -1,7 +1,24 @@
 import './About.css'
 import InputMask from "react-input-mask"
+import axios from "axios";
 
 function About() {
+
+  let phone,name = "";
+
+  function recall(){
+      axios.post("http://apelio.khonik.online/api/recall",{
+          phone:phone,
+          name:name,
+      }).then(r=>{
+          if(r.data.errors_count===0){
+              alert("Заявка отправлена")
+          } else{
+              alert("Ошибка при заполнении полей")
+          }
+      })
+  }
+
   return (
     <div className="container-sm container-sm__about">
     <div className="row">
@@ -14,12 +31,12 @@ function About() {
         <form className="about__form">
           <div className="mb-3 mb-3__about">
             <label className="form-label">Поможем Вам найти запчасти</label>
-            <InputMask mask="+7 999 999 99 99" type="tel" id="phone" name="phone" placeholder="+7 999 999 99 99" className="form-controler" required />
+            <InputMask onChange={e => phone=e.target.value} mask="+7 999 999 99 99" type="tel" id="phone" name="phone" placeholder="+7 999 999 99 99" className="form-controler" required />
           </div>
           <div className="mb-3 mb-3__about">
-            <input type="text" placeholder="Имя" className="form-controler"/>
+            <input onChange={e => name=e.target.value} type="text" placeholder="Имя" className="form-controler"/>
           </div>
-          <button type="submit" className="btn btn-primary btn-primary__about">Отправить</button>
+          <button type="button" onClick={recall} className="btn btn-primary btn-primary__about">Отправить</button>
         </form>
       </div>
     </div>
