@@ -11,6 +11,7 @@ import Car from '../Car/Car';
 import Offers from '../Offers/Offers';
 import Order from '../Order/Order';
 import RegisterPopup from '../RegisterPopup/RegisterPopup';
+import PrivateWrapper from '../PrivateWrapper/PrivatWrapper';
 
 
 class App extends React.Component {
@@ -58,11 +59,13 @@ class App extends React.Component {
                 <main className="main">
                     <Header isLogin={this.state.isLogin} openPopup={this.openPopup}/>
                     <Routes>
-                        <Route path="/" element={<Main/>}/>
+                      <Route exact path="/" element={<Main/>}/>
+                      <Route element={<PrivateWrapper isLogin={this.state.isLogin} />}>
                         <Route path="/garage" element={<Garage/>}/>
                         <Route path="/garage/:orderId" element={<Car/>}/>
                         <Route path="/offers/:orderId" element={<Offers/>}/>
                         <Route path="/order" element={<Order/>}/>
+                      </Route>
                     </Routes>
                     <Footer/>
                     {popup}
