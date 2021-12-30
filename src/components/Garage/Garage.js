@@ -34,7 +34,7 @@ class Garage extends React.Component {
         this.setState({
             isLoading: true,
         })
-        axios.get("http://apelio.khonik.online/api/marka?type=1&name=" + input).then(r => {
+        axios.get("marka?type=1&name=" + input).then(r => {
             this.setState({
                 isLoading: false,
                 brands: r.data.brands,
@@ -54,7 +54,7 @@ class Garage extends React.Component {
         this.setState({
             isLoading: true,
         })
-        axios.get("http://apelio.khonik.online/api/model?marka_id=" + this.state.selectedBrand.marka_id + "&name=" + input).then(r => {
+        axios.get("model?marka_id=" + this.state.selectedBrand.marka_id + "&name=" + input).then(r => {
             this.setState({
                 isLoading: false,
                 models: r.data.models,
@@ -91,7 +91,7 @@ class Garage extends React.Component {
             status: this.state.selectedStatus ? this.state.selectedStatus : ""
         };
 
-        axios.get("http://apelio.khonik.online/api/orders?" + new URLSearchParams(query).toString(), {
+        axios.get("orders?" + new URLSearchParams(query).toString(), {
             headers: {
                 ApiToken: localStorage.getItem('api_token')
             }
@@ -211,7 +211,7 @@ function OrderItem(props) {
 
     function archiveStatus(e) {
 
-        axios.post("http://apelio.khonik.online/api/orders/" + props.order.id + "/status", {
+        axios.post("orders/" + props.order.id + "/status", {
             status: "5"
         })
             .then((res) => {
@@ -246,7 +246,7 @@ function OrderItem(props) {
 function OrderItem(props) {
 
   function archiveStatus() {
-    axios.post("http://apelio.khonik.online/api/orders/" + props.orderId + "/status", {
+    axios.post("orders/" + props.orderId + "/status", {
       status: "5"
   })
     .then((res) => {

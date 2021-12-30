@@ -7,7 +7,7 @@ function About() {
   let phone,name = "";
 
   function recall(){
-      axios.post("http://apelio.khonik.online/api/recall",{
+      axios.post("recall",{
           phone:phone,
           name:name,
       }).then(r=>{

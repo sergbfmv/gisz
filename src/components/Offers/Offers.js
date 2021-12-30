@@ -12,7 +12,7 @@ function Offers(props) {
     let {orderId} = useParams()
 
     function getOffer() {
-        axios.get("http://apelio.khonik.online/api/orders/" + orderId, {
+        axios.get("orders/" + orderId, {
             headers: {
                 ApiToken: localStorage.getItem('api_token')
             }
@@ -78,7 +78,7 @@ function OffersList(props) {
     const [isSelected, setIsSelected] = React.useState(false)
 
     function getOffer() {
-        axios.get("http://apelio.khonik.online/api/orders/" + props.orderId + "/relevant-companies", {
+        axios.get("orders/" + props.orderId + "/relevant-companies", {
             headers: {
                 ApiToken: localStorage.getItem('api_token')
             }
@@ -108,7 +108,7 @@ function OfferItem(props) {
     const isSelected = props.isSelected;
 
     function selectOffer() {
-        axios.post(`http://apelio.khonik.online/api/orders/${props.orderId}/set-company`, {
+        axios.post(`orders/${props.orderId}/set-company`, {
             company_id: offer.id,
         }, {
             headers: {

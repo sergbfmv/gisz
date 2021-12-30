@@ -6,6 +6,10 @@ import './index.css';
 import App from './components/App/App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
+import axios from "axios";
+
+window.axios = axios;
+axios.defaults.baseURL = 'https://apelio.khonik.online/api';
 
 ReactDOM.render(
   <React.StrictMode>

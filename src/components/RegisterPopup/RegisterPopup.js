@@ -21,7 +21,7 @@ class RegisterPopup extends React.Component {
 
     sendSMSCode() {
         // AJAX
-        axios.post('http://apelio.khonik.online/api/login', {
+        axios.post('login', {
             phone: this.state.phone,
         }).then(response => {
             this.setState({
@@ -31,7 +31,7 @@ class RegisterPopup extends React.Component {
     }
 
     checkCode() {
-        axios.post('http://apelio.khonik.online/api/confirm-phone', {
+        axios.post('confirm-phone', {
             phone: this.state.phone,
             phone_code: this.state.phone_code,
         }).then(response => {

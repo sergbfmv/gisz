@@ -10,7 +10,7 @@ function Car(props) {
   let {orderId} = useParams()
 
   function getOrder() {
-    axios.get("http://apelio.khonik.online/api/orders/" + orderId, {
+    axios.get("orders/" + orderId, {
       headers: {
         ApiToken: localStorage.getItem('api_token')
       }
@@ -25,7 +25,7 @@ function Car(props) {
   }, [])
 
   function getOffer() {
-    axios.get("http://apelio.khonik.online/api/orders/" + orderId + "/relevant-companies", {
+    axios.get("orders/" + orderId + "/relevant-companies", {
       headers: {
         ApiToken: localStorage.getItem('api_token')
       }

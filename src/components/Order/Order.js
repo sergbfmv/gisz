@@ -55,7 +55,7 @@ class Order extends React.Component {
         this.setState({
             isLoading: true,
         })
-        axios.get(`http://apelio.khonik.online/api/marka?type=${this.state.selectedType}&name=${input}`).then(r => {
+        axios.get(`marka?type=${this.state.selectedType}&name=${input}`).then(r => {
             this.setState({
                 isLoading: false,
                 brands: r.data.brands,
@@ -76,7 +76,7 @@ class Order extends React.Component {
         this.setState({
             isLoading: true,
         })
-        axios.get("http://apelio.khonik.online/api/model?marka_id=" + this.state.selectedBrand.marka_id + "&name=" + input).then(r => {
+        axios.get("model?marka_id=" + this.state.selectedBrand.marka_id + "&name=" + input).then(r => {
             this.setState({
                 isLoading: false,
                 models: r.data.models,
@@ -96,7 +96,7 @@ class Order extends React.Component {
         this.setState({
             isLoading: true,
         })
-        axios.get("http://apelio.khonik.online/api/cities?name=" + input).then(r => {
+        axios.get("cities?name=" + input).then(r => {
             this.setState({
                 isLoading: false,
                 cities: r.data.data,
@@ -128,12 +128,11 @@ class Order extends React.Component {
                 }
             })
         };
-        axios.post(`http://apelio.khonik.online/api/orders`, body, {
+        axios.post(`orders`, body, {
             headers: {
                 ApiToken: localStorage.getItem('api_token')
             }
         }).then(response => {
-            let order = response.data.data;
             if (response.data.errors_count === 0) {
                 alert(response.data.msg);
             } else {
@@ -174,7 +173,7 @@ class Order extends React.Component {
         const searchParams = new URLSearchParams(searchString);
         const orderId = searchParams.get('copy_order');
         if (parseInt(orderId)) {
-            axios.get(`http://apelio.khonik.online/api/orders/${orderId}`)
+            axios.get(`orders/${orderId}`)
                 .then(res => {
                     const city = res.data.order.city;
                     this.setState({
