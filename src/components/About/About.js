@@ -44,6 +44,7 @@ function About() {
       <div className="col-sm-12 col-sm-12__about">
         <h3>Этапы работы:</h3>
       </div>
+      <div className='row__work'>
       <div className="col-sm-2">
         <h4 className="col-sm-2__title">01</h4>
         <p className="col-sm__text">Заявка</p>
@@ -66,6 +67,7 @@ function About() {
       </div>
       <div className="col-sm-2">
         <h4 className="col-sm-2__title">Готово</h4>
+      </div>
       </div>
     </div>
   </div>
