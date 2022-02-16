@@ -49,6 +49,10 @@
   border: 1px solid #ced4da;
 }
 
+.input__order {
+  margin-bottom: 15px;
+}
+
 .form-input__order::placeholder {
   color: #D6D6D6;
 }

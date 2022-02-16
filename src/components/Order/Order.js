@@ -249,7 +249,7 @@ class Order extends React.Component {
                                     onChange={this.selectModel}
                                     disabled={this.state.selectedBrand === null}
                                 />
-                                <input className="form-select form-select__garage form-select__order"
+                                <input className="form-input__order input__order"
                                        placeholder="Год выпуска *"
                                        maxLength='4'
                                        onChange={e => this.setState({selectedYear: e.target.value})}
@@ -257,7 +257,7 @@ class Order extends React.Component {
                                 >
                                 </input>
                                 <input
-                                    className="form-select form-select__garage form-select__order form-select__order_vin"
+                                    className="form-input__order input__order"
                                     placeholder="Vin *" maxLength='17'
                                     value={this.state.selectedVIN}
                                     onChange={e => this.setState({selectedVIN: e.target.value})}
@@ -384,6 +384,7 @@ class DetailForm extends React.Component {
     render() {
         return (
             <div>
+                <p>Деталь</p>
                 <input
                     className="form-select form-select__garage form-select__order"
                     placeholder='Введите название'

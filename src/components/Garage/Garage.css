@@ -39,9 +39,7 @@
 
 .col-sm-12__garage {
   margin-top: 30px;
-  overflow: hidden;
-  overflow-x: scroll;
-  white-space:nowrap;
+  white-space: nowrap;
 }
 
 #garage-table__id tr th{
@@ -71,7 +69,6 @@
 #garage-table__id tr th:nth-child(6){
   width: 14%;
 }
-
 
 .table {
   font-weight: 600;
@@ -143,6 +140,11 @@
 
   .col-sm-12__garage {
     margin-top: 20px;
+  }
+
+  .col-sm-12__garage {
+    overflow: hidden;
+    overflow-x: scroll;
   }
 }
 
