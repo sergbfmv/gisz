@@ -11,9 +11,11 @@ class Header extends React.Component {
   render() {
     let button;
     let addButton;
+    let exitButton;
     if (this.props.isLogin) {
       addButton = <Link to="/order" type="button" className="btn btn-warning btn-order"><span> Новый заказ</span></Link>
       button = <Link to="/garage" type="button" className="btn btn-primary btn-primary__header"><span>Личный кабинет</span></Link>;
+      exitButton = <Link to="/" type="button" className="btn-exit" onClick={this.props.exitAuth}>Выйти</Link>
     } else {
       button = <button type="button" className="btn btn-warning" onClick={this.props.openPopup}><span>Регистрация</span></button>;
     }
@@ -25,6 +27,7 @@ class Header extends React.Component {
               <div className="header__links">
                 {addButton}
                 {button}
+                {exitButton}
               </div>
             </div>
           </div>

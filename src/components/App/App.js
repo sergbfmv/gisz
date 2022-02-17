@@ -37,6 +37,13 @@ class App extends React.Component {
         });
     }
 
+    exitAuth() {
+      localStorage.removeItem("api_token");
+      this.setState({
+        isLogin: this.authToken
+    });
+    }
+
     openPopup() {
         this.setState({
             popupOpened: true
@@ -58,7 +65,7 @@ class App extends React.Component {
         return (
             <div className="page">
                 <main className="main">
-                    <Header isLogin={this.state.isLogin} openPopup={this.openPopup}/>
+                    <Header isLogin={this.state.isLogin} openPopup={this.openPopup} exitAuth={this.exitAuth}/>
                     <Routes>
                       <Route exact path="/" element={<Main/>}/>
                       <Route element={<PrivateWrapper isLogin={this.state.isLogin} />}>

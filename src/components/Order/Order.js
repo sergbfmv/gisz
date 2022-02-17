@@ -2,7 +2,8 @@ import "./Order.css"
 import {AsyncTypeahead} from 'react-bootstrap-typeahead';
 import React from "react";
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import { Button } from "bootstrap";
 
 class Order extends React.Component {
     constructor(props) {
@@ -236,6 +237,8 @@ class Order extends React.Component {
                                     placeholder="Марка *"
                                     onChange={this.selectBrand}
                                     className="brand-search"
+                                    required
+                                    onKeyUp={this.checkParams}
                                 />
                                 <AsyncTypeahead
                                     id="model-search"
@@ -248,12 +251,15 @@ class Order extends React.Component {
                                     placeholder="Модель"
                                     onChange={this.selectModel}
                                     disabled={this.state.selectedBrand === null}
+                                    required
+                                    onKeyUp={this.checkParams}
                                 />
                                 <input className="form-input__order input__order"
                                        placeholder="Год выпуска *"
                                        maxLength='4'
                                        onChange={e => this.setState({selectedYear: e.target.value})}
                                        value={this.state.selectedYear}
+                                       required
                                 >
                                 </input>
                                 <input
@@ -261,6 +267,7 @@ class Order extends React.Component {
                                     placeholder="Vin *" maxLength='17'
                                     value={this.state.selectedVIN}
                                     onChange={e => this.setState({selectedVIN: e.target.value})}
+                                    required
                                 >
                                 </input>
                                 {/*<div className="drop-zone">
@@ -277,6 +284,7 @@ class Order extends React.Component {
                                         selected={this.state.selectedCity ? [this.state.selectedCity] : []}
                                         placeholder='Город *'
                                         onChange={this.selectCity}
+                                        required
                                     />
                                 </div>
                                 <div className="mb-3 mb-3__about">
@@ -301,12 +309,9 @@ class Order extends React.Component {
                                 </button>
                             </div>
                             <div className="order-form__buttons">
-                                <button type="button"
-                                        className="btn btn-primary btn-primary__garage btn-primary__order"
-                                        onClick={this.submitOrder}
-                                >
-                                    Отправить
-                                </button>
+                            <Link to="/garage" type="button" className="btn btn-primary btn-primary__garage btn-primary__order"
+                                onClick={this.submitOrder}>Отправить
+                            </Link>
                                 <BackButton/>
                             </div>
                         </form>

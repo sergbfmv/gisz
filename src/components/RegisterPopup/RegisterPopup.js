@@ -56,12 +56,12 @@ class RegisterPopup extends React.Component {
                        placeholder="+7 999 999 99 99" className="popup__placeholder" required/>
             <button type="button" name="save" className="popup__code-button"
                     onClick={this.sendSMSCode}>
-                Выслать код подтверждения
+                На указаный номер поступит звонок
             </button>
         </form>
         if (this.state.SMSSent) {
             actualForm = <form className="popup__form">
-                <input type="text" id="reg-text" name="reg-text" placeholder="Код подтверждения из СМС"
+                <input type="text" id="reg-text" name="reg-text" placeholder="Введите последние 4 цифры номера, с которого звонили"
                        className="popup__placeholder" required onChange={e => this.setState({phone_code: e.target.value})}/>
                 <button type="button" name="save" className="popup__save-button"
                         onClick={this.checkCode}>Сохранить

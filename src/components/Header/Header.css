@@ -69,6 +69,24 @@
   line-height: 27px;
 }
 
+.btn-exit {
+  font-weight: 800;
+  font-size: 18px;
+  line-height: 23px;
+  margin-left: 10px;
+  color: #E0E0E0;
+  border: none;
+  background-color: white;
+  height: 25px;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.btn-exit:hover {
+  opacity: 0.6;
+  color: red;
+}
+
 @media screen and (max-width: 768px) {
   .footer__title {
     margin-top: 29px;
@@ -92,7 +110,7 @@
   }
 }
 
-@media screen and (max-width: 580px) {
+@media screen and (max-width: 650px) {
   .header__title {
     margin-top: 20px;
     margin-bottom: 20px;
@@ -129,7 +147,7 @@
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    margin-right: 20px;
+    margin-right: 0;
     border: none;
     padding: 0;
   }
@@ -177,5 +195,10 @@
   }
   .btn-primary span {
     display: none
+  }
+
+  .btn-exit {
+    font-size: 14px;
+    margin-left: 0;
   }
 }
