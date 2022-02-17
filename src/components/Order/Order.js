@@ -39,6 +39,7 @@ class Order extends React.Component {
         this.searchCities = this.searchCities.bind(this);
         this.selectCity = this.selectCity.bind(this);
 
+        this.removeDetail = this.removeDetail.bind(this)
         this.submitOrder = this.submitOrder.bind(this)
         this.goBack = this.goBack.bind(this)
         this.addDetail = this.addDetail.bind(this)
@@ -158,6 +159,12 @@ class Order extends React.Component {
         currentDetails.push(newDetail);
         this.setState({
             details: currentDetails,
+        })
+    }
+
+    removeDetail() {
+        this.setState({
+            details: [],
         })
     }
 
@@ -298,11 +305,9 @@ class Order extends React.Component {
                                     <input type="text" placeholder="Офис *" className="form-input__order" required/>
                                 </div>*/}
 
-                                {this.state.details.map((detail, index) => <DetailForm name={detail.name}
-                                                                                       type={detail.type}
-                                                                                       state={detail.state}
-                                                                                       index={index}
-                                                                                       onChange={(event) => this.detailUpdated(index, event)}
+                                {this.state.details.map((detail, index) => 
+                                    <DetailForm name={detail.name} type={detail.type} state={detail.state} index={index}
+                                        onChange={(event) => this.detailUpdated(index, event)} removeDetail={this.removeDetail}
                                 />)}
                                 <button type="button" className="order-button" onClick={this.addDetail}>
                                     + Добавить деталь
@@ -415,6 +420,7 @@ class DetailForm extends React.Component {
                         <option value="any">Любая</option>
                     </select>
                 </div>
+                <button className="btn-remove" type="button" onClick={this.props.removeDetail}>Удалить деталь</button>
             </div>
         )
     }
