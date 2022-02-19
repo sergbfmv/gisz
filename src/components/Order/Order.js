@@ -3,7 +3,6 @@ import {AsyncTypeahead} from 'react-bootstrap-typeahead';
 import React from "react";
 import axios from "axios";
 import {Link, useNavigate} from "react-router-dom";
-import {Button} from "bootstrap";
 
 class Order extends React.Component {
     constructor(props) {
@@ -164,7 +163,6 @@ class Order extends React.Component {
 
     removeDetail(index) {
         let details = this.state.details;
-        console.log('remove', index, details[index]);
         details.splice(index, 1);
         this.setState({
             details: details,
@@ -309,7 +307,8 @@ class Order extends React.Component {
                                 </div>*/}
 
                                 {this.state.details.map((detail, index) =>
-                                    <DetailForm key={index + detail.name} name={detail.name} type={detail.type} state={detail.state}
+                                    <DetailForm key={index + detail.name} name={detail.name} type={detail.type}
+                                                state={detail.state}
                                                 index={index}
                                                 onChange={(event) => this.detailUpdated(index, event)}
                                                 removeDetail={(e) => this.removeDetail(index)}
@@ -411,16 +410,20 @@ class DetailForm extends React.Component {
                 />
                 <div>
                     <select className="form-select form-select__garage form-select__order" name="type"
-                            aria-label="Default select example" onChange={this.changeType} id="select-type">
-                        <option selected value="">Тип детали</option>
+                            aria-label="Default select example" onChange={this.changeType} id="select-type"
+                            defaultValue={''}
+                    >
+                        <option value="">Тип детали</option>
                         <option value="cheap">Дешёвая аналог</option>
                         <option value="quality">Качественный аналог</option>
                         <option value="original">Оригинал</option>
                     </select>
                     <select className="form-select form-select__garage form-select__order" name="state"
                             onChange={this.changeState}
-                            aria-label="Default select example" id="select-state">
-                        <option selected value="">Тип детали</option>
+                            aria-label="Default select example" id="select-state"
+                            defaultValue={''}
+                    >
+                        <option value="">Состояние детали</option>
                         <option value="new">Новая</option>
                         <option value="used">Б/у</option>
                         <option value="any">Любая</option>
