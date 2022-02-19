@@ -3,7 +3,7 @@ import {AsyncTypeahead} from 'react-bootstrap-typeahead';
 import React from "react";
 import axios from "axios";
 import {Link, useNavigate} from "react-router-dom";
-import { Button } from "bootstrap";
+import {Button} from "bootstrap";
 
 class Order extends React.Component {
     constructor(props) {
@@ -162,9 +162,12 @@ class Order extends React.Component {
         })
     }
 
-    removeDetail() {
+    removeDetail(index) {
+        let details = this.state.details;
+        console.log('remove', index, details[index]);
+        details.splice(index, 1);
         this.setState({
-            details: [],
+            details: details,
         })
     }
 
@@ -196,8 +199,8 @@ class Order extends React.Component {
                         selectedYear: res.data.order.year,
                         selectedVIN: res.data.order.vin,
                         selectedCity: {
-                            id:city?.id,
-                            name:city?.name
+                            id: city?.id,
+                            name: city?.name
                         },
                         selectedAddress: res.data.order.address
                     })
@@ -305,18 +308,21 @@ class Order extends React.Component {
                                     <input type="text" placeholder="Офис *" className="form-input__order" required/>
                                 </div>*/}
 
-                                {this.state.details.map((detail, index) => 
-                                    <DetailForm name={detail.name} type={detail.type} state={detail.state} index={index}
-                                        onChange={(event) => this.detailUpdated(index, event)} removeDetail={this.removeDetail}
-                                />)}
+                                {this.state.details.map((detail, index) =>
+                                    <DetailForm key={index + detail.name} name={detail.name} type={detail.type} state={detail.state}
+                                                index={index}
+                                                onChange={(event) => this.detailUpdated(index, event)}
+                                                removeDetail={(e) => this.removeDetail(index)}
+                                    />)}
                                 <button type="button" className="order-button" onClick={this.addDetail}>
                                     + Добавить деталь
                                 </button>
                             </div>
                             <div className="order-form__buttons">
-                            <Link to="/garage" type="button" className="btn btn-primary btn-primary__garage btn-primary__order"
-                                onClick={this.submitOrder}>Отправить
-                            </Link>
+                                <Link to="/garage" type="button"
+                                      className="btn btn-primary btn-primary__garage btn-primary__order"
+                                      onClick={this.submitOrder}>Отправить
+                                </Link>
                                 <BackButton/>
                             </div>
                         </form>
