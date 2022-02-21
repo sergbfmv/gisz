@@ -113,36 +113,6 @@ class Order extends React.Component {
         }
     }
 
-    submitOrder() {
-        const body = {
-            marka_id: this.state.selectedBrand?.marka_id,
-            model_id: this.state.selectedModel?.model_id,
-            year: this.state.selectedYear,
-            vin: this.state.selectedVIN,
-            city_id: this.state.selectedCity?.id,
-            address: this.state.selectedAddress,
-            details: this.state.details?.map(detail => {
-                return {
-                    name: detail.name,
-                    type: detail.type,
-                    state: detail.state
-                }
-            })
-        };
-        axios.post(`orders`, body, {
-            headers: {
-                ApiToken: localStorage.getItem('api_token')
-            }
-        }).then(response => {
-            if (response.data.errors_count === 0) {
-                alert(response.data.msg);
-            } else {
-                alert("Поля заполнены некорректно")
-            }
-
-        })
-    }
-
     goBack() {
         // позвращаемся в профиль
         console.log("BACK")
@@ -206,6 +176,36 @@ class Order extends React.Component {
         }
     }
 
+    submitOrder() {
+        const body = {
+            marka_id: this.state.selectedBrand?.marka_id,
+            model_id: this.state.selectedModel?.model_id,
+            year: this.state.selectedYear,
+            vin: this.state.selectedVIN,
+            city_id: this.state.selectedCity?.id,
+            address: this.state.selectedAddress,
+            details: this.state.details?.map(detail => {
+                return {
+                    name: detail.name,
+                    type: detail.type,
+                    state: detail.state
+                }
+            })
+        };
+        axios.post(`orders`, body, {
+            headers: {
+                ApiToken: localStorage.getItem('api_token')
+            }
+        }, this.getOrder())
+        .then(response => {
+            if (response.data.errors_count === 0) {
+                alert(response.data.msg);
+            } else {
+                alert("Поля заполнены некорректно")
+            }
+        })
+    }
+
     componentDidMount() {
         this.getOrder()
     }
@@ -245,7 +245,6 @@ class Order extends React.Component {
                                     placeholder="Марка *"
                                     onChange={this.selectBrand}
                                     className="brand-search"
-                                    required
                                     onKeyUp={this.checkParams}
                                 />
                                 <AsyncTypeahead
@@ -259,7 +258,6 @@ class Order extends React.Component {
                                     placeholder="Модель"
                                     onChange={this.selectModel}
                                     disabled={this.state.selectedBrand === null}
-                                    required
                                     onKeyUp={this.checkParams}
                                 />
                                 <input className="form-input__order input__order"
