@@ -130,18 +130,19 @@
 
 @media screen and (max-width: 530px) {
   .popup__save-button {
-      margin-top: 15px;
-      font-size: 14px;
-      padding-bottom: 14px;
-  }
-  .popup__code-button {
     margin-top: 15px;
     font-size: 14px;
     padding-bottom: 14px;
   }
+  .popup__code-button {
+    margin-top: 15px;
+    font-size: 12px;
+    padding-bottom: 14px;
+    width: 250px;
+  }
   .popup__title {
     font-size: 18px;
-    margin-bottom: 75px;
+    margin-bottom: 25px;
   }
   .popup__container {
     padding: 25px 22px;
@@ -152,5 +153,8 @@
     top: -40px;
     right: 0;
     background-size: cover;
+  }
+  .popup__placeholder {
+    width: 250px;
   }
 }
