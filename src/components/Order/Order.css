@@ -182,3 +182,8 @@
     line-height: 20px;
   }
 }
+
+
+input[type=text]{
+  background-image: none !important;
+}

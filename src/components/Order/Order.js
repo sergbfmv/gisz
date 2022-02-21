@@ -3,7 +3,6 @@ import {AsyncTypeahead} from 'react-bootstrap-typeahead';
 import React from "react";
 import axios from "axios";
 import {Link, useNavigate} from "react-router-dom";
-import { Button } from "bootstrap";
 
 class Order extends React.Component {
     constructor(props) {
@@ -162,9 +161,11 @@ class Order extends React.Component {
         })
     }
 
-    removeDetail() {
+    removeDetail(index) {
+        let details = this.state.details;
+        details.splice(index, 1);
         this.setState({
-            details: [],
+            details: details,
         })
     }
 
@@ -196,8 +197,8 @@ class Order extends React.Component {
                         selectedYear: res.data.order.year,
                         selectedVIN: res.data.order.vin,
                         selectedCity: {
-                            id:city?.id,
-                            name:city?.name
+                            id: city?.id,
+                            name: city?.name
                         },
                         selectedAddress: res.data.order.address
                     })
@@ -305,18 +306,22 @@ class Order extends React.Component {
                                     <input type="text" placeholder="Офис *" className="form-input__order" required/>
                                 </div>*/}
 
-                                {this.state.details.map((detail, index) => 
-                                    <DetailForm name={detail.name} type={detail.type} state={detail.state} index={index}
-                                        onChange={(event) => this.detailUpdated(index, event)} removeDetail={this.removeDetail}
-                                />)}
+                                {this.state.details.map((detail, index) =>
+                                    <DetailForm key={index + detail.name} name={detail.name} type={detail.type}
+                                                state={detail.state}
+                                                index={index}
+                                                onChange={(event) => this.detailUpdated(index, event)}
+                                                removeDetail={(e) => this.removeDetail(index)}
+                                    />)}
                                 <button type="button" className="order-button" onClick={this.addDetail}>
                                     + Добавить деталь
                                 </button>
                             </div>
                             <div className="order-form__buttons">
-                            <Link to="/garage" type="button" className="btn btn-primary btn-primary__garage btn-primary__order"
-                                onClick={this.submitOrder}>Отправить
-                            </Link>
+                                <Link to="/garage" type="button"
+                                      className="btn btn-primary btn-primary__garage btn-primary__order"
+                                      onClick={this.submitOrder}>Отправить
+                                </Link>
                                 <BackButton/>
                             </div>
                         </form>
@@ -405,16 +410,20 @@ class DetailForm extends React.Component {
                 />
                 <div>
                     <select className="form-select form-select__garage form-select__order" name="type"
-                            aria-label="Default select example" onChange={this.changeType} id="select-type">
-                        <option selected value="">Тип детали</option>
+                            aria-label="Default select example" onChange={this.changeType} id="select-type"
+                            defaultValue={''}
+                    >
+                        <option value="">Тип детали</option>
                         <option value="cheap">Дешёвая аналог</option>
                         <option value="quality">Качественный аналог</option>
                         <option value="original">Оригинал</option>
                     </select>
                     <select className="form-select form-select__garage form-select__order" name="state"
                             onChange={this.changeState}
-                            aria-label="Default select example" id="select-state">
-                        <option selected value="">Тип детали</option>
+                            aria-label="Default select example" id="select-state"
+                            defaultValue={''}
+                    >
+                        <option value="">Состояние детали</option>
                         <option value="new">Новая</option>
                         <option value="used">Б/у</option>
                         <option value="any">Любая</option>
