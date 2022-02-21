@@ -125,7 +125,11 @@
 }
 
 .form-control__garage {
-  max-width: 190px;
+  max-width: 220px;
+}
+
+.brand-search {
+  min-width: 120px;
 }
 
 @media screen and (max-width: 1024px) {
@@ -198,7 +202,11 @@
   }
 
   .btn-primary__garage {
-    padding: 19px 145px;
+    padding: 19px 60px;
+  }
+
+  .btn-exit {
+    margin-right: 10px;
   }
 
   .col-sm-12__garage-text {
@@ -215,6 +223,7 @@
   .rbt-input-main {
     margin-bottom: 20px;
     width: 270px;
+    margin-right: 0;
   }
 }
 
@@ -223,8 +232,13 @@
     margin-right: 40px;
   }
   .btn-primary__garage {
-    padding: 19px 85px;
+    padding: 19px 60px;
   }
+
+  .btn-exit {
+    margin-right: 5px;
+  }
+
   .container__garage {
     margin-left: 0;
   }

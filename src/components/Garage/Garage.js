@@ -113,9 +113,10 @@ class Garage extends React.Component {
     render() {
         let model;
         if (this.state.selectedBrand === null) {
-            model = <AsyncTypeahead placeholder="Модель" disabled/>
+            model = <AsyncTypeahead placeholder="Модель" className="brand-search" disabled/>
         } else {
             model = <AsyncTypeahead
+                className="brand-search"
                 id="model-search"
                 isLoading={this.state.isLoading}
                 labelKey="name"
@@ -133,6 +134,7 @@ class Garage extends React.Component {
                         <form className="garage__form">
                             <div className="mb-3 mb-3__garage">
                                 <AsyncTypeahead
+                                    className="brand-search"
                                     id="brand-search"
                                     isLoading={this.state.isLoading}
                                     labelKey="name"
