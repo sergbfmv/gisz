@@ -55,7 +55,9 @@ class Order extends React.Component {
     searchBrands(input) {
         this.setState({
             isLoading: true,
+            selectedBrand:null
         })
+
         axios.get(`marka?type=${this.state.selectedType}&name=${input}`).then(r => {
             this.setState({
                 isLoading: false,
@@ -66,7 +68,6 @@ class Order extends React.Component {
 
     selectBrand(selectedData) {
         if (selectedData.length > 0) {
-            console.log(selectedData[0]);
             this.setState({
                 selectedBrand: selectedData[0],
             })
@@ -76,6 +77,7 @@ class Order extends React.Component {
     searchModels(input) {
         this.setState({
             isLoading: true,
+            selectedModel:null
         })
         axios.get("model?marka_id=" + this.state.selectedBrand.marka_id + "&name=" + input).then(r => {
             this.setState({
@@ -96,6 +98,7 @@ class Order extends React.Component {
     searchCities(input) {
         this.setState({
             isLoading: true,
+            selectedCity:null
         })
         axios.get("cities?name=" + input).then(r => {
             this.setState({
@@ -196,10 +199,12 @@ class Order extends React.Component {
             headers: {
                 ApiToken: localStorage.getItem('api_token')
             }
-        }, this.getOrder())
+        })
         .then(response => {
             if (response.data.errors_count === 0) {
                 alert(response.data.msg);
+                //this.getOrder()
+                window.location.href="/garage"
             } else {
                 alert("Поля заполнены некорректно")
             }
@@ -245,7 +250,6 @@ class Order extends React.Component {
                                     placeholder="Марка *"
                                     onChange={this.selectBrand}
                                     className="brand-search"
-                                    onKeyUp={this.checkParams}
                                 />
                                 <AsyncTypeahead
                                     id="model-search"
@@ -258,7 +262,6 @@ class Order extends React.Component {
                                     placeholder="Модель"
                                     onChange={this.selectModel}
                                     disabled={this.state.selectedBrand === null}
-                                    onKeyUp={this.checkParams}
                                 />
                                 <input className="form-input__order input__order"
                                        placeholder="Год выпуска *"
@@ -305,7 +308,9 @@ class Order extends React.Component {
                                 </div>*/}
 
                                 {this.state.details.map((detail, index) =>
-                                    <DetailForm key={index + detail.name} name={detail.name} type={detail.type}
+                                    <DetailForm key={index + detail.name}
+                                                name={detail.name}
+                                                type={detail.type}
                                                 state={detail.state}
                                                 index={index}
                                                 onChange={(event) => this.detailUpdated(index, event)}
@@ -316,10 +321,10 @@ class Order extends React.Component {
                                 </button>
                             </div>
                             <div className="order-form__buttons">
-                                <Link to="/garage" type="button"
+                                <button type="button"
                                       className="btn btn-primary btn-primary__garage btn-primary__order"
                                       onClick={this.submitOrder}>Отправить
-                                </Link>
+                                </button>
                                 <BackButton/>
                             </div>
                         </form>
@@ -343,6 +348,7 @@ function BackButton() {
 class DetailForm extends React.Component {
     constructor(props) {
         super(props);
+
         this.state = {
             state: props.state,
             name: props.name,
@@ -362,7 +368,7 @@ class DetailForm extends React.Component {
                 name: name
             })
 
-            this.detailChanged()
+            //this.detailChanged()
         }, 0)
     }
 
@@ -405,6 +411,7 @@ class DetailForm extends React.Component {
                     name={`name_${this.state.index}`}
                     value={this.state.name}
                     onChange={this.changeName}
+                    onfocusout={this.detailChanged}
                 />
                 <div>
                     <select className="form-select form-select__garage form-select__order" name="type"

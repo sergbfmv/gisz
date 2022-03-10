@@ -10,6 +10,18 @@ import axios from "axios";
 
 window.axios = axios;
 axios.defaults.baseURL = 'https://apelio.khonik.online/api';
+axios.interceptors.response.use(response => response, error => {
+    if (error.response) {
+        if (error.response.status === 403) {
+            localStorage.removeItem('api_token')
+            window.location.href='/';
+            return
+        }
+
+    }
+    return Promise.reject(error)
+})
+
 
 ReactDOM.render(
   <React.StrictMode>
